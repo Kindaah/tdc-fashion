@@ -6,10 +6,10 @@ TDC is an automated & optimized multi-sided fashion platform with cloud-based te
 
 ## Features
 
-** Product Lifecycle Management:**
-** Production Monitoring System:**
-** Robotic Process Automation:**
-** Predictive Analytics:** 
+1. ** Product Lifecycle Management:**
+2. ** Production Monitoring System:**
+3. ** Robotic Process Automation:**
+4. ** Predictive Analytics:** 
 
 
 ## Installtion 
