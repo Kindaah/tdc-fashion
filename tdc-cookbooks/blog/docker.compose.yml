@@ -1,0 +1,42 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+version: '3.3'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:4.9.8-php7.0
+    volumes:
+      - /vagrant/var/www/html/wp-content/themes:/var/www/html/wp-content/themes
+    ports:
+      - "8000:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+
+volumes:
+  db_data:

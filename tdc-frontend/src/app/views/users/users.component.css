@@ -1,0 +1,115 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Edson Ruiz Ramirez
+ * @file users.component.css
+ * @description Users styles
+ */
+
+ .card-orders {
+  margin-top: 2%;
+  background-color: #ffffff;
+  border-radius: .3em;
+  border: 0.063em solid rgba(0,0,0,.125);
+}
+
+.card-orders:hover {
+  box-shadow: .1em .2em .2em 0 #919191;
+}
+
+.card-description {
+  padding: 1%;
+}
+
+.card-status-enable {
+  background-color: #e2b64d;
+  color: #ffffff;
+  border-top-right-radius: .3em;
+  border-bottom-right-radius: .3em;
+  padding: 1%;
+  text-align: right;
+}
+
+.order-title {
+  font-weight: bold;
+}
+
+.order-title-status {
+  font-weight: bold;
+  text-align: right;
+}
+
+.time-status {
+  text-align: right;
+}
+
+.users-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 1em;
+}
+
+.users-div {
+  flex-basis: 50em;
+  padding-right: 7em;
+}
+
+.users-row {
+  padding: 1em;
+}
+
+.user-company {
+  text-align: center;
+  color: white;
+  width: 50%;
+}
+
+.user-company-complete {
+  background-color: #7ED321;
+}
+
+.user-company-incomplete {
+  background-color: #F5A623;
+}
+
+.header-title {
+  font-weight: bold;
+}
+
+.header-btn {
+  float: right;
+  text-align: right;
+}
+
+.header-btn-item {
+  margin-right: 1%;
+}
+
+/* FILTERS */
+.order-filters {
+  margin-top: 2%;
+}
+
+.filters-btn-item {
+  margin-right: 1%;
+  margin-bottom: 1%;
+}
+
+ /* Focus negative button */
+.btn-negative:focus {
+  background-color: #363636;
+  color: #ffffff;
+}
+
+ /* Active button */
+.btn-active {
+  background-color: #363636 !important;
+  color: #ffffff;
+}

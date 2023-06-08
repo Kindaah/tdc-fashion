@@ -1,0 +1,65 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+---
+- name: Create Azure Container Registry
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  
+  tasks:
+  - name: Create an azure container registry
+    azure_rm_containerregistry:
+      name: "{{ azure_acr_name }}"
+      location: "{{ azure_acr_location }}"
+      resource_group: "{{ azure_resource_group_name }}"
+      state: present
+      sku: "{{ azure_acr_sku }}"
+      admin_user_enabled: True
+    register: azure_acr_result
+    
+  - name: Show container registry url
+    debug:
+        msg: "{{ azure_acr_result.login_server }}"
+    
+  - name: Assert the container registry is well created
+    assert:
+      that:
+        - azure_acr_result.provisioning_state == 'Succeeded'
+  
+  - name: Set login url
+    set_fact:
+        acr_login_server: "{{ azure_acr_result.login_server }}"
+  
+  - name: Login docker registry
+    docker_login:
+      registry: "{{ acr_login_server }}"
+      username: "{{ azure_acr_name }}"
+      password: "{{ azure_acr_result.credentials.password }}"
+      email: "{{ azure_acr_email }}"
+      
+  - name: Print result
+    debug:
+      msg: "{{ azure_acr_result }}"
+
+  - name: Save result to file
+    local_action: copy content={{ azure_acr_result | to_nice_json }} dest=acr.result
+    
+  - name: Next to do
+    vars:
+      msg: |
+            Next task must be executed manually using the account owner of the azure accound or any other with the required permission.
+            - Login as account owner:
+              $az login
+            - Get the ACR resource ID
+              $az acr show --name {{ azure_acr_name }} --resource-group {{ azure_resource_group_name }} --query \"id\" --output tsv
+            - Create a role assignment to grant the correct access for the AKS cluster or any other azure service to use images stored in ACR
+              $az role assignment create --assignee <App ID> --role Reader --scope <ACR ID>
+    debug:
+      msg: "{{ msg.split('\n') }}"

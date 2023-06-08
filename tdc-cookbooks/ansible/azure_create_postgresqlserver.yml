@@ -1,0 +1,36 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+- name: Create Azure Postgresql instance
+  hosts: localhost
+  connection: local
+  
+  tasks:
+  - name: Create PostgreSQL Server
+    azure_rm_postgresqlserver:
+      resource_group: "{{ azure_db_resource_group_name }}"
+      name: "{{ azure_db_name }}"
+      sku:
+        name: "{{ azure_db_sku_name }}"
+        tier: "{{ azure_db_sku_tier }}"
+      location: "{{ azure_db_location }}"
+      storage_mb: "{{ azure_db_storage_mb }}"
+      enforce_ssl: "{{ azure_db_enforce_ssl }}"
+      admin_username: "{{ azure_db_admin_username }}"
+      admin_password: "{{ azure_db_admin_password }}"
+    register: output
+    
+  - name: Assert the resource instance is well created
+    assert:
+      that:
+        - output.state == 'Ready'
+        
+  - name: Create firewall rules
+    command: "az postgres server firewall-rule create --resource-group {{ azure_db_resource_group_name }} --server-name {{ azure_db_name }} --name {{ item.name }} --start-ip-address  {{ item.ip_address }} --end-ip-address {{ item.ip_address }}"
+    with_items: "{{ azure_db_security_groups }}"

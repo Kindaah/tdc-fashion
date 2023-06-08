@@ -1,0 +1,111 @@
+<div class="container-fluid content-scroll">
+  <div class="row">
+    <div class="col-md-8 left-register">
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div class="row">
+          <div class="col-md-12">
+            <h2>Create a new account</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Contact information:</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-register">
+            <div class="form-group">
+              <label for=firstName>First name:</label>
+              <input formControlName="firstName" name="firstName" class="form-control" placeholder="Enter your first name:"
+              [ngClass]="formValidatorHelper.getClassCss('firstName')">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('firstName')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last name:</label>
+              <input formControlName="lastName" name="lastName" class="form-control" placeholder="Enter your last name"
+              [ngClass]="formValidatorHelper.getClassCss('lastName')">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('lastName')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="companyEmail">Company email address:</label>
+              <input formControlName="companyEmail" name="companyEmail" class="form-control" placeholder="Enter your email"
+              [ngClass]="formValidatorHelper.getClassCss('companyEmail')">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('companyEmail')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="phoneNumber">Mobile number:</label>
+              <input formControlName="phoneNumber" name="phoneNumber" class="form-control" placeholder="Enter your mobile number"
+              [ngClass]="formValidatorHelper.getClassCss('phoneNumber')">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('phoneNumber')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div [formGroup]="passwordGroup" class="form-group">
+              <label for="password">Password:</label>
+              <input formControlName="password" name="password" type="password" class="form-control" placeholder="Enter your password"
+              [ngClass]="formValidatorHelper.getClassCss('password', passwordGroup)">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('password', passwordGroup)" class="invalid-feedback">
+                {{ errorMessage }}
+              </div>
+              <label for="confirmPassword">Confirm password:</label>
+              <input formControlName="confirmPassword" name="confirmPassword" type="password" class="form-control" placeholder="Enter your password"
+              [ngClass]="formValidatorHelper.getClassCss('passwordGroup')">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('passwordGroup')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 terms-conditions">
+            <div class="form-check form-check-inline">
+                <input name="check" formControlName="agree" class="form-check-input" type="checkbox"
+                [ngClass]="formValidatorHelper.getClassCss('agree')">
+                <label class="form-check-label" for="check"> Check here to indicate that you have read and agree to the terms of the 
+                  <a class="aggreementLink" (click)="redirect()">TDC Customer agreement</a>
+                </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 recaptcha">
+            <re-captcha formControlName="recaptchaField"></re-captcha>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 btn-account">
+            <button [routerLink]="['/login']" class="btn btn-lg btn-negative">BACK TO LOGIN</button>
+          </div>
+          <div class="col-md-6 btn-account">
+            <button [disabled]="!registerForm.valid" type="submit" class="btn btn-lg btn-positive">CREATE ACCOUNT</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4 right-register">
+      <div class="row">
+        <div class="col-md-12 login-logo">
+          <img src="assets/logo-tdc-large.png" alt="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="principal-title">Join our community</h2>
+          <h5 class="secondary-title">You could speed up your collection's manufacturing and get your order in just 14 business days!</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#e2b64d"
+  type = "ball-atom">
+</ngx-spinner>

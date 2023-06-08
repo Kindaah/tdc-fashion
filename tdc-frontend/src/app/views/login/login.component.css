@@ -1,0 +1,149 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Daniel Mejia
+ * @file login.component.css
+ * @description Login styles
+ */
+
+h2 {
+  font-weight: bold;
+}
+
+a {
+  color: #746f75;
+  cursor: pointer;
+}
+
+a:hover {
+  color: #4A464B;
+}
+
+a:active {
+  color: #4A464B;
+}
+
+.login-logo {
+  margin-bottom: 5%;
+}
+
+.principal-title {
+  margin-bottom: 5%;
+  color: #fff;
+}
+
+.secondary-title {
+  color: #fff;
+  margin-bottom: 5%;
+}
+
+.general-login {
+  padding: 10%;
+  background-color: #e2b64d;
+  min-height: 100%;
+}
+
+.form-login {
+  background-color: #fff;
+  box-shadow: 0% 2% 4% #000;
+}
+
+.form-principal-title {
+  color: #746F75;
+  font-weight: bold;
+  margin-top: 5%;
+  margin-bottom: 2%;
+}
+
+.form-secondary-title {
+  color: #746F75;
+  margin-bottom: 5%;
+}
+
+.button-form {
+  text-align: center;
+}
+
+.btn-register {
+  border-color: #746F75;
+  color: #746F75;
+  background-color: #ffffff;
+  width: 40%;
+  margin-bottom: 2%;
+  border-radius: 1.4em;
+}
+
+.btn-register:hover {
+  background-color: #746F75;
+  color:#ffffff;
+  border-color: #ffffff;
+}
+
+.btn-register:active {
+  color: #ffffff;
+  background-color: #4A464B;
+}
+
+.forgotten-form {
+  margin-top: 5%;
+  text-align: center;
+  color:#746F75;
+}
+
+.btn-register-form {
+  margin-top: 2%;
+  border-color: #746F75;
+  color: #746F75;
+  background-color:transparent;
+  margin-bottom: 2%;
+  border-radius: 1.4em;
+}
+
+.btn-register-form:hover {
+  background-color: #746F75;
+  color:#fff;
+}
+
+.btn-register-form:active {
+  color: #fff;
+  background-color: #4A464B;
+}
+
+.login-logo-small {
+  text-align: center;
+}
+
+.form-recovery {
+  margin-bottom: 10%;
+}
+
+.btn-login {
+  border-color: #746F75;
+  text-decoration-color: #746F75;
+  background-color: transparent;
+  border-radius: 1.4em;
+  margin-right: 1%;
+}
+
+.btn-login:hover {
+  background-color: #746F75;
+  color: #ffffff;
+}
+
+.btn-login:active {
+  background-color: #4A464B;
+  color: #ffffff;
+}
+
+.btn-login:disabled {
+  border-color: #BDBDBD;
+  color: #BDBDBD;
+  pointer-events: none;
+}

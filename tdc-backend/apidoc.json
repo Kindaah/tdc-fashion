@@ -1,0 +1,7 @@
+{
+  "name": "TDC",
+  "version": "0.0.1",
+  "description": "The Dress Club back-end RestAPI",
+  "title": "The Dress Club Back-end RestAPI",
+  "url" : "http://localhost:8082/v1"
+}

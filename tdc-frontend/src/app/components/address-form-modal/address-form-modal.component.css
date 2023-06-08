@@ -1,0 +1,27 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Edson Ruiz Ramirez
+ * @file address-form-modal.component.css
+ * @description Address Form Modal styles
+ */
+
+ .content-scroll-address {
+  height: 49vh !important;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative; 
+ }
+
+ .card-add {
+  margin-left: 2em;
+  margin-right: 2em;
+  padding-bottom: 0.5em;
+}

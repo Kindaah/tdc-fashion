@@ -1,0 +1,99 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+---
+- name: Create Kubernetes Resources
+  hosts: localhost
+  connection: local
+  gather_facts: False
+     
+  tasks:
+
+  - set_fact: azure_aks_principal_client_id="{{ lookup('env','AZURE_CLIENT_ID') }}"
+  - set_fact: azure_aks_principal_client_secret="{{ lookup('env','AZURE_SECRET') }}"
+
+  - name: Create Cluster Issuer file
+    template: src=templates/cluster-issuer.yaml dest=/tmp/cluster-issuer.play.yaml
+    delegate_to: localhost
+
+  - name: Create Certificate Request file
+    template: src=templates/certificates.yaml dest=/tmp/certificates.play.yaml
+    delegate_to: localhost
+
+  - name: Create Backend Ingress file
+    template: src=templates/backend-ingress.yaml dest=/tmp/backend-ingress.play.yaml
+    
+  - name: Create a managed Azure Container Services (AKS) instance
+    azure_rm_aks:
+      name: "{{ azure_aks_name }}"
+      location: "{{ azure_aks_location }}"
+      resource_group: "{{ azure_resource_group_name }}"
+      dns_prefix: "{{ azure_aks_dns_prefix }}"
+      linux_profile:
+        admin_username: "{{ azure_aks_linux_profile_user }}" 
+        ssh_key: "{{ azure_aks_linux_profile_ssh_key }}"
+      service_principal:
+        client_id: "{{ azure_aks_principal_client_id }}" #"eec4cddb-7af1-4b11-b3ba-bfa6cbd5c90f"
+        client_secret: "{{ azure_aks_principal_client_secret }}"  #"7e81c26d-b34f-4d3d-ab20-02440aef0165"
+      agent_pool_profiles:
+        - name: "{{ azure_aks_agent_pool_name }}"
+          count: "{{ azure_aks_agent_pool_count }}"
+          vm_size: "{{ azure_aks_vm_size }}"
+      tags:
+        Environment: "{{ env_name }}"
+    register: aks_result
+        
+  - name: Assert the resource instance is well created
+    assert:
+      that:
+        - aks_result.provisioning_state == 'Succeeded'
+        - aks_result.tags.Environment == "{{ env_name }}"
+
+  - name: Get Credentials
+    command: "az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_SECRET --tenant $AZURE_TENANT"
+
+  - name: Get the resource group name of the AKS cluster
+    command: "az aks show --resource-group {{ azure_resource_group_name }} --name  {{ azure_aks_name }} --query nodeResourceGroup -o tsv"
+    register: get_resource_groupname_result
+
+  - name: Set the resource groupname of the AKS cluster as a var
+    set_fact:
+      aks_groupname: "{{ get_resource_groupname_result.stdout }}"
+
+  - name: Create a public ip address
+    azure_rm_publicipaddress:
+      resource_group: "{{ aks_groupname }}"
+      name: "tdc_api_{{ env_name }}"
+      allocation_method: Static
+      tags:
+        Environment: "{{ env_name }}"
+    register: publicipaddress_result
+      
+  - name: Public IP address
+    debug:
+      msg: "{{ publicipaddress_result }}"
+        
+  - name: Save result to file
+    local_action: copy content={{ publicipaddress_result | to_nice_json }} dest=publicipaddress.result
+
+  - name: Set the IP address as a var
+    set_fact:
+      tdc_api_ip: "{{ publicipaddress_result.state.ip_address }}"
+
+  - name: Get the Public IP ID 
+    command: "az network public-ip list --query \"[?ipAddress!=null]|[?contains(ipAddress, '{{ tdc_api_ip }}')].[id]\" --output tsv"
+    register: get_publicip_id_result
+  
+  - name: Set the Public IP ID as a var
+    set_fact:
+      public_ip_id: "{{ get_publicip_id_result.stdout }}"
+
+  - name: Update public ip address with DNS name
+    command: "az network public-ip update --ids {{ public_ip_id }} --dns-name {{ dnsname }}"
+    register: get_dnsname_result

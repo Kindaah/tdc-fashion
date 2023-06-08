@@ -1,0 +1,30 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+---
+- name: Create Azure Resource Group
+  hosts: localhost
+  connection: local
+  gather_facts: False
+    
+  tasks:
+  - name: Create the Resource Group
+    azure_rm_resourcegroup:
+      name: "{{ azure_resource_group_name }}"
+      location: "{{ azure_resource_group_location }}"
+      tags:
+          Environment: "{{ env_name }}"
+    register: azure_rg_result
+    
+  - name: Assert the resource instance is well created
+    assert:
+      that:
+        - azure_rg_result.state.provisioning_state == 'Succeeded'
+        - azure_rg_result.state.tags.Environment == "{{ env_name }}"
+      msg: "The Resource Group '{{ azure_resource_group_name }}' couldn't be create."

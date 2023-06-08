@@ -1,0 +1,32 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Cristian Ricardo
+ * @file address-info.component.css
+ * @description Address-info styles
+ */
+ 
+.address-info-card {
+  width: 19rem;
+}
+
+.address-check {
+  padding-right: 0;
+}
+
+.shippingType {
+  background-color: #e2b64d;
+  color: #ffffff;
+}
+
+.actions {
+  padding-top: 0.7em;
+  float: right;
+}

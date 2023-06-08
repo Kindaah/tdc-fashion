@@ -1,0 +1,54 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Daniel Mejia
+ * @file payment-info.component.css
+ * @description Payment info styles
+ */
+
+.card-row {
+  margin-top: 2%;
+}
+
+.card-radius {
+  padding-top: 1%;
+  border-radius: .3em;
+  border: 0.063em solid rgba(0,0,0,.125);
+}
+
+.payment-date {
+  background-color: #e2b64d;
+  color: #ffffff;
+  margin-right: 1%;
+}
+
+.payment-amount {
+  text-align: center;
+}
+
+.payment-amount-state {
+  color: white;
+}
+
+.payment-amount-succeeded {
+  background-color: #7ED321;
+}
+
+.payment-amount-failed {
+  background-color: #D0021B;
+}
+
+.payment-amount-pending {
+  background-color: #F5A623;
+}
+
+.nowrap-text {
+  white-space: nowrap;
+}

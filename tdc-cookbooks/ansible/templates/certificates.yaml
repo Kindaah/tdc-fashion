@@ -1,0 +1,26 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: tls-secret-api
+spec:
+  secretName: tls-secret-api
+  dnsNames:
+  - {{ api_domain_name }}
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+      - {{ api_domain_name }}
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer

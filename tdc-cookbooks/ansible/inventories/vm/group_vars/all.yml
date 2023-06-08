@@ -1,0 +1,28 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+
+env_name: vm
+
+# Role vars: cafeto.ansible.role.postgresql.database
+database_host: localhost
+database_port: 5432
+database_root_user: rootuser
+database_root_user_pass: rootuser
+
+database_camunda_name: "camunda_{{ env_name }}"
+database_camunda_role: camunda-role
+database_camunda_user: camunda_user
+database_camunda_user_password: camunda_user
+
+database_app_name: "tdc_{{ env_name }}"
+database_app_role: tdc-role
+database_app_user: tdc_user
+database_app_user_password: tdc_user
+# END

@@ -1,0 +1,81 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Cristian Ricardo
+ * @file samples.component.css
+ * @description Samples styles
+ */
+ 
+* {
+  margin-top: .2em;
+ }
+
+#pro-panel {
+   background-color: #ffffff !important;
+ }
+
+.rs-note {
+  color: #e2b64d !important;
+ }
+
+.pro-feature {
+  margin-bottom: 2em;
+}
+
+.card {
+  border: auto;
+  margin-bottom: 1em;
+}
+
+.card-title {
+  margin-left: .5em;
+}
+
+.card-body {
+  padding: .5em;
+}
+
+.btn-negative {
+  color: #000000;
+}
+
+.btn-negative:hover {
+  color: #ffffff !important;
+}
+
+.form-control-color {
+  display: block;
+  width: 3em;
+  height: calc(2.25rem + 0.125em);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: transparent;
+  background-color: #ffffff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  margin: 0 !important;
+}
+
+.color-label {
+  margin: 0 !important;
+  width: 100%;
+}
+
+.col-md {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.col-md-color {
+  margin: 0;
+}

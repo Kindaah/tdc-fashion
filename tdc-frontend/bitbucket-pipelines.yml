@@ -1,0 +1,63 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+
+image:
+  name: tdcregistry.azurecr.io/tdc_pipeline/frontend:0.0
+  username: $DOCKER_USER
+  password: $DOCKER_PASS
+
+pipelines:
+  branches:
+    TDC-*:
+    - step:
+        caches:
+          - sonar
+        name: Feature branch
+        script:
+          - npm install
+          - npm run lint
+          - npm run test
+          - npm run sonarqube
+      
+    develop:
+    - step:
+        name: Deploy to Development
+        deployment: test
+        script:
+          - npm install
+          - npm run lint
+          - npm run test
+          - npm run build.dev
+          - npm run deploy.dev
+
+    release-*:
+    - step:
+        name: Deploy to Staging
+        deployment: staging
+        script:
+          - npm install
+          - npm run lint
+          - npm run test
+          - npm run build.staging
+          - npm run deploy.staging
+
+    master:
+    - step:
+        name: Deploy to Production
+        deployment: production
+        script:
+          - npm install
+          - npm run lint
+          - npm run test
+          - npm run build.prod
+          - npm run deploy.prod
+definitions:
+  caches:
+    sonar: ~/.sonar

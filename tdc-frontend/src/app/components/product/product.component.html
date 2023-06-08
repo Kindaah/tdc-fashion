@@ -1,0 +1,142 @@
+<div class="card-body" (dragover)="showDragZone = true" (mouseleave)="showDragZone = false">
+  <div class="row">
+    <div class="col"><h3>Product # {{index}}</h3></div>
+    <div class="col btn-features">
+      <button *ngIf="shouldShowTechnicalPackButton" (click)="openModal(technicalSheetModal)" class="btn btn-positive header-btn-item" [disabled]="!product">
+        {{ formDisabled ? '' : '+ ADD' }} TECHNICAL DYNAMIC PACK
+      </button>
+      <button *ngIf="!formDisabled" (click)="addFeatureToForm()" class="btn btn-positive header-btn-item">+ ADD NEW FEATURES</button>
+    </div>
+  </div>
+  <form [formGroup]="productForm">
+    <div class="row">
+      <div class="col">
+        <label for="description"><h6>Description:</h6></label>
+        <input [class.form-disabled]="formDisabled" class="form-control" formControlName="description" name="description" placeholder="Description"
+          [ngClass]="formValidatorHelper.getClassCss('description')">
+        <div *ngFor="let errorMessage of formValidatorHelper.errors('description')" class="invalid-feedback"> 
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+    <div formArrayName="features" class="section-features">
+      <hr />
+        <div *ngFor="let feature of featuresForm.controls; let featureInProductIndex = index">
+          <div [formGroup]="feature" class="row feature-row">
+            <div class="col-md-2">
+              <label for="size"><h6>Size:</h6></label>
+              <input [class.form-disabled]="formDisabled" class="form-control" formControlName="size" name="size" placeholder="Size"
+                [ngClass]="formValidatorHelper.getClassCss('size', feature)">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('size', feature)" class="invalid-feedback">
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="col-md">
+              <label for="color"><h6>Color:</h6></label>
+              <button class="btn btn-upload-color" [class.form-disabled]="formDisabled" (click)="colorSelected.click()">+</button>
+              <div *ngFor="let color of getColorList(feature.value.color)" [ngbTooltip]="getColorCYMK(color)" triggers="click:blur"
+                class="disable-text-selection" tooltipClass="color-tooltip">
+                <input class="form-control-color form-disabled" formControlName="color"
+                  [colorPicker]="color" [style.background]="color">
+              </div>
+              <input #colorSelected hidden class="form-control-color" colorPicker="color" style.background="color"
+                [cpAddColorButton]="true" [cpPresetColors]="getColorList(feature.value.color)" [cpSaveClickOutside]="false" [cpOKButton]="true"
+                (cpPresetColorsChange)="feature.get('color').setValue($event.join('/'))" [cpMaxPresetColorsLength]="5">
+            </div>
+            <div class="col-md">
+              <label for="patterns"><h6>Patterns:</h6></label>
+              <button class="btn btn-upload-pattern" [class.form-disabled]="formDisabled" (click)="patternsToShow.click()"> + </button>
+              <input #patternsToShow hidden multiple type="file" accept="image/*" class="form-control-file"
+                (change)="onPatternsInputChange($event.target.files, feature)">
+              <div class="patterns" >
+                <img class="img-pattern" *ngFor="let image of feature.value.patternsToShow | async" [src]="image" alt="img-pattern">
+              </div>
+              <div class="invalid-feedback" [class.displayElement]="feature.value.patterns.length > 5">
+                Maximum 5 patterns by feature.
+              </div>
+            </div>
+            <div class="col-md-2">
+              <label for="quantity"><h6>Quantity:</h6></label>
+              <input [class.form-disabled]="formDisabled" type="number" min="10" max="500" step="1" class="form-control" formControlName="quantity"
+                name="quantity" placeholder="Quantity" [ngClass]="formValidatorHelper.getClassCss('quantity', feature)">
+              <small class="form-text text-muted">Min: 10, Max:500</small>
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('quantity', feature)" class="invalid-feedback">
+                {{ errorMessage }}
+              </div>
+            </div>
+            <input hidden formControlName="orderInProduct" name="orderInProduct">
+            <div *ngIf="featuresForm.controls.length > 1 && this.order && this.order?.state.id === 1" class="col-md-auto btn-deleted">
+              <button (click)="removeFeatureToForm(featureInProductIndex)" class="btn btn-danger btn-sm">X</button>
+            </div>
+          </div>
+        </div> 
+      <hr/>
+    </div>
+  </form>
+  <div *ngIf="showUpload3DModel" class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="input-group">
+          <button (click)="modelFiles.click()" class="btn btn-upload" [class.form-disabled]="!uploadFilesButtonEnabled">
+            {{ uploadFilesButtonEnabled ? 'Upload' : '' }} 3d models
+          </button>
+          <button *ngFor="let fileName of filesNames.modelFiles" (click)="downloadFile(fileName)" class="btn upload-desc" [disabled]="permitDownload">
+            {{ getFileNameToShow(fileName) }}
+          </button>
+        </div>
+        <file-drop *ngIf="showDragZone && uploadFilesButtonEnabled" headertext="Drop files here" (onFileDrop)="onFileDropped($event, 'modelFiles')"
+          [disableIf]="!uploadFilesButtonEnabled">
+        </file-drop>
+        <input #modelFiles hidden multiple type="file" class="form-control-file"
+          (change)="onFileInputChange('modelFiles', $event.target.files)">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="input-group">
+          <button (click)="sketchFiles.click()" class="btn btn-upload" [class.form-disabled]="inputFilesDisabled">
+            {{ orderInCreation ? 'Add' : '' }} Sketches
+          </button>
+          <button *ngFor="let fileName of filesNames.sketchFiles" (click)="downloadFile(fileName)" class="btn upload-desc" [disabled]="permitDownload">
+            {{ getFileNameToShow(fileName) }}
+          </button>
+        </div>
+        <file-drop *ngIf="showDragZone && !inputFilesDisabled" headertext="Drop files here" (onFileDrop)="onFileDropped($event, 'sketchFiles')"
+          [disableIf]="inputFilesDisabled">
+        </file-drop>
+        <input #sketchFiles hidden multiple type="file" class="form-control-file"
+          (change)="onFileInputChange('sketchFiles', $event.target.files)">
+      </div>
+    </div>
+  </div>
+  <div *ngIf="shouldShowTechnicalSheetButton" class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="input-group">
+          <button (click)="technicalSheetFiles.click()" class="btn btn-upload" [class.form-disabled]="inputFilesDisabled">
+            {{ orderInCreation ? 'Add' : '' }} Technical sheet
+          </button>
+          <button *ngFor="let fileName of filesNames.technicalSheetFiles" (click)="downloadFile(fileName)" 
+            class="btn upload-desc" [disabled]="permitDownload">
+            {{ getFileNameToShow(fileName) }}
+          </button>
+        </div>
+        <file-drop *ngIf="showDragZone && !inputFilesDisabled" headertext="Drop files here" (onFileDrop)="onFileDropped($event, 'technicalSheetFiles')"
+          [disableIf]="inputFilesDisabled">
+        </file-drop>
+        <input #technicalSheetFiles hidden multiple type="file" class="btn-positive form-control-file"
+          (change)="onFileInputChange('technicalSheetFiles', $event.target.files)">
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #technicalSheetModal let-modal>
+  <div class="modal-body">
+    <app-technical-sheet-form [callback]="modal.close" [formDisabled]="formDisabled" [sizes]="calculateSizes()" [product]="product" [order]="order" 
+      (technicalSheetUpdated)="notifiyProductSaved.emit({ refresh: true, callback: modal.close, message: $event });" (technicalSheetError)="manageError($event)">
+    </app-technical-sheet-form>
+  </div>
+</ng-template>

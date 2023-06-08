@@ -1,0 +1,30 @@
+<div *ngIf="showAddresses">
+  <div class="modal-header">
+    <h4 class="modal-title">SHIPPING ADDRESSES</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="card card-hr card-coments" *ngIf="user?.shippingAddresses.length">
+    <div class="container-fluid container-address content-scroll-address">
+      <div class="row">
+        <div class="card-add" *ngFor="let shippingAddress of user?.shippingAddresses">
+          <app-address-info [selected]="shippingAddress.id === selectedShipping?.id" [shippingAddress]="shippingAddress" (shippingAddressSelect)='selectedShipping = $event'>
+            <button actions mat-icon-button (click)="[showNewAddress(true, shippingAddress)]">
+              <mat-icon class="color-primary" aria-label="Edit shipping address button">edit</mat-icon>
+            </button>
+          </app-address-info>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-negative" (click)="activeModal.dismiss()"> CANCEL </button>
+    <button class="btn btn-positive" (click)="showNewAddress(true)"> NEW ADDRESS </button>
+    <button class="btn btn-positive" (click)="updateOrderAddress(selectedShipping)" [disabled]="!selectedShipping?.id"> NEXT </button>
+  </div>
+</div>
+<app-address-form [hidden]="showAddresses" [user]="user" (notifyShippingSaved)="onAddressSaved($event)">
+  <button actions class="btn btn-negative" (click)="activeModal.dismiss()"> CANCEL </button>
+  <button actions class="btn btn-positive" (click)="showNewAddress(false)" *ngIf="user?.shippingAddresses.length"> CHOOSE ADDRESS </button>
+</app-address-form>

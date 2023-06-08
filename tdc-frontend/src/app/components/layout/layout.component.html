@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <div class="row left-structure">    
+    <div class="col-md-1 menu-structure left-structure">
+      <app-menu></app-menu>
+    </div>  
+    <div class="col-md-11 right-structure content-scroll">
+      <div #header class="margin header-fixed">
+        <ng-content select="[header-content]"></ng-content>
+      </div>
+      <div class="margin" [style.padding-top.em]="header.offsetHeight / 16" (window:resize)="0">
+        <ng-content select="[body-content]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.6)" size="large" color="#e2b64d" type="ball-atom"></ngx-spinner>

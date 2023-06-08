@@ -1,0 +1,52 @@
+<div class="card address-info-card">
+  <div class="card-body">
+    <div class="row">
+      <div *ngIf="showSelector" class="col-md-auto address-check">
+        <div class="form-check">
+          <input class="form-check-input position-static" type="radio" id="blankCheckbox" 
+            [checked]="selected" aria-label="..." (click)="addressSelected()">
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="row" *ngIf="shippingAddressType">
+          <div  class="col-md shippingType">
+            {{shippingAddressType}}
+          </div>
+        </div>
+        <div class="row" *ngIf="shippingAddress">
+          <div class="col-md-auto">
+            <img src="assets/address/person.png" alt="person">
+          </div>
+          <div class="col-md">{{shippingAddress.contactName}}</div>
+        </div>
+        <div class="row" *ngIf="shippingAddress">
+          <div class="col-md-auto">
+            <img src="assets/address/address.png" alt="address">
+          </div>
+          <div class="col-md" 
+            *ngIf="shippingAddress.streetAddressAddInfo && shippingAddress.streetAddressAddInfo !==null || shippingAddress.streetAddressAddInfo !==''">
+            <p>{{shippingAddress.streetAddress}}
+              {{shippingAddress.streetAddressAddInfo}}
+              {{shippingAddress.city}}, {{shippingAddress.state}}, {{shippingAddress.postalCode}}
+              {{shippingAddress.country}}</p>
+          </div>
+          <div class="col-md" 
+            *ngIf="!shippingAddress.streetAddressAddInfo || shippingAddress.streetAddressAddInfo ===null || shippingAddress.streetAddressAddInfo ===''">
+            <p>{{shippingAddress.streetAddress}}
+              {{shippingAddress.city}}, {{shippingAddress.state}}, {{shippingAddress.postalCode}}
+              {{shippingAddress.country}}</p>
+          </div>
+        </div>
+        <div class="row" *ngIf="shippingAddress">
+          <div class="col-md-auto">
+            <img src="assets/address/phone.png" alt="phone">
+          </div>
+          <div class="col-md">+{{shippingAddress.countryCode}}-{{shippingAddress.phoneNumber}}</div>
+        </div>
+        <div class="row actions" *ngIf="shippingAddress">
+          <ng-content select="[actions]"></ng-content>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>

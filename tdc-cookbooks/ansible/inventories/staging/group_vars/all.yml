@@ -1,0 +1,144 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+
+# Commun vars
+env_name: staging
+azure_resource_group_name: "rgTDC_{{ env_name }}"
+azure_resource_group_location: eastus
+
+# Role vars: cafeto.ansible.role.postgresql.database
+azure_db_name: tdcdbdevelopment
+database_root_user: root_pguser@tdcdbdevelopment
+database_root_user_pass: 5XkcMNKwn!&Mq27cJaClJ
+database_host: tdcdbdevelopment.postgres.database.azure.com
+database_port: 5432
+
+database_app_name: "tdc_{{ env_name }}"
+database_app_role: tdc-role
+database_app_user: tdc_user_staging
+database_app_user_password: 89hfse6b$_$2NfGrtsa
+# END Role vars: cafeto.ansible.role.postgresql.database
+
+# Role vars: tdc.ansible.role.azure.kubernetes_resources
+azure_aks_name: "aksTDC_{{ env_name }}"
+azure_aks_dns_prefix: "tdc-{{ env_name }}"
+azure_aks_location: "{{ azure_resource_group_location }}"
+azure_aks_vm_size: Standard_B2s
+azure_aks_agent_pool_name: mainpool
+azure_aks_agent_pool_count: 1
+azure_aks_linux_profile_user: tdckbuser
+azure_aks_linux_profile_ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5OmanjIi9onV/sMqfxupyDX50szwa87v0kiPJw6SwOIplvFxh9IGGsbBLbTa91oDMjHI2Vp7ImXCg9GpOWFZeIfUETT/Mdz/bXtBxqyFtO1/Uh2qdNZasnZn26xuy3wGAVHmsrIuhH5eIazcFJMbsg2WTSFG/fJ40fTNrpwekdCOqnTAEHEqhXYZyd1awYjPVP6vEaNKQRG0npeYE8fJQPzTFxpUNquOy299+pDmjB2F1pk2ZG0JF9liZk3Th5arnEBNOgbm7gUHb4ksPl19bxZbMv9nJda14HQL4HwAN0N4jB+jhzjzXN5reyU1Uqom9syFTJ1f8JiLIERWD4hZj"
+azure_aks_linux_profile_ssh_pk_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  MIIEpAIBAAKCAQEAuTpmp4yIvaJ1f7DKn8bqcg1+dLM8GvO79JIjycOksDiKZbxc
+  YfSBhrGwS202vdaAzIxyNlaeyJlwoPRqTlhWXiH1BE0/zHc/217QcashbT tf1Idq
+  nTWWrJ2Z9usbst8BgFR5rKyLoR+XiGs3BSTG7INlk0hRv3yeNH0za6cHpHQjqp0w
+  BBxKoV2GcndWsGIz1T+rxGjSkERtJ6XmBPHyUD80xcaVDarjstvffqQ5owdhdaZN
+  mRtCRfZYmZN04eWq5xATToG5u4FB2+JLD5dfW8WWzL/ZyXWteB0C+B8ADdDeIwfo
+  4c481zea3slNVKqJvbMhUydX/CYiyBEVg+IWYwIDAQABAoIBAH1YHPGS81HIp1Si
+  kWuwEyTdJs7YH3tppq5pWpiFsWOiz1zrK2UKLcC1a8SPAnVSu9Qv0nYdBdRfqUzy
+  OSINO1z2A7VGhT7bD7Zmog3ZrYQaos3SWX5LLkxfVjo2fYb8zCpIgBIurUp6c3PY
+  geIUMh0JCeqyDMfVD8YbV3mpDU3mNnQ4Cfy/qh1tXcZSFeG/sU17zaB/Uf816BkX
+  zPWuBowok4Ea9VmLtH3DmWia/v56LiPsfd9byxdM0unnkCZ2oK49nF3VhjsyVa4q
+  DA+et05lO8uf91wWSKMEUrBXlGA1MycUjFVUSiYnYiQpnOh/ihMIER/LICSzA7AO
+  nNXWJrkCgYEA6Vj47zCzn8Sv6d9JUz2bDChi26wtZccgvL1LNxPWWtmOUP3io/Ys
+  wi0W0BpFTwe832xTqR1zqxfCucU/tpZXWnv0ewhwh8JEb2cY6YIbZ59wIQtUQQT+
+  Ot6BlEgULSMWrE/ZzNfUf3tR+OE3ETjsCe6K0x/Q3Q2dRXzEV1oeHAUCgYEAyzWX
+  N8yMKCsuEzvuR36LZ5SWyYwJyoDVvh/4wpgUh9wbAXPpMSgcccj1vlc2kF0vUP/S
+  1knCjnyY2AwFsE19rtsFdb8WCbIGqosAGiH6/V5v2au3q9bRsGo10pS21k/y4KJy
+  DFmtXMLZsxRVTQy6QNQ9+twHZJlxXN6UquF43UcCgYEAio/uofoFb6XX38RbQjae
+  zwVcTp1bB8jKw8iT1UzOSHxPagCYiEwyH8uudDxlU5yApxsoQo/ek4Y0dyONxdpY
+  XL6mWjiUuci94nkR7fb4VvvyFW0oxsM0Q7jEsUxrzrG7UO7Joj23TUvpTSRPEsb+
+  QpeHj/6gg+MFtLF11XkJ0BECgYEAhQKJ/YMMxook+YAD4pYpB16SKFBaZEtaHL1u
+  pWjIH3lpz9Sf8YYQwEXK3JDXbT0haIJa7dqP15YksV2FJ7ZBKv+/nie6dBQsGtsq
+  8PAHCmsTCUZFzdupmzCaFEE1QChKkNCjmAPm3s3Hk1ke0HUhQKfr/dShni51rlUe
+  uI8m/qcCgYAnJz+EGhzpMCjdSFSKnhAZXugWG4BNOo12HN4YOfjpSvkkIXNwp+W+
+  cK3OBxdh8Yp6PdFJ1zSRYm+m610rEopNV3zgdFdH+jPtI6Y0q+jly7OwUaSgah5X
+  /cD3DImjUKHDhMt/MD2nhdCDuhTP9fazU4ijpo7gon207ZFLMKognQ==
+  -----END RSA PRIVATE KEY-----
+
+api_domain_name: api-stg.tdc.fashion
+dnsname: tdc-api-stg
+letsencrypt_email_notification: aramirez@cafetosoftware.com
+# END Role vars: tdc.ansible.role.azure.kubernetes_resources
+
+# Role vars: tdc.ansible.role.azure.storage.blob
+azure_storage_account_name: "tdcstorage{{env_name}}"
+azure_storage_account_type: Standard_LRS
+azure_storage_container: "attachments-{{env_name}}"
+azure_storage_account_key: "8O27Yy3i/LSS87kOzDfXebHDAevwa9X7ZNUGytaCRoxOwKVnfLJFYCj7XGTahd48lsZpmQxZfWmadwKgmrsLkw=="
+azure_storage_connection: "DefaultEndpointsProtocol=https;AccountName={{azure_storage_account_name}};AccountKey={{azure_storage_account_key}}"
+azure_storage_access_tier: Cool
+# END Role vars: tdc.ansible.role.azure.storage.blob
+
+
+# Role vars: tdc.ansible.role.azure.storage.website
+azure_storage_frontend_account_name: "tdcsite{{env_name}}"
+azure_storage_frontend_account_type: Standard_LRS
+# END Role vars: tdc.ansible.role.azure.storage.website
+
+# Role vars: Backend service
+tdc_api_resource_group_name: "MC_rgTDC_{{env_name}}_aksTDC_{{env_name}}_eastus"
+tdc_registry_repository: tdcregistry.azurecr.io/tdc/tdc_backend
+# tdc_backend_image_version: latest
+# Role vars: Backend service
+
+# Auth0 vars
+auth0_apiAudience: "https://api-stg.tdc.fashion"
+auth0_issuer: "https://tdc-stg.auth0.com/"
+auth0_management_domain: "tdc-stg.auth0.com"
+auth0_management_client_id: "uwqJwMUQqMVgE2dN7iy8Hs3l27zPZi87"
+auth0_management_client_secret: "TrhNSNmkNTcsZKOWfRn3MrYdAG_CthxpBWgb-IUOtXQEyGHDQDQvn6twZ9QmABio"
+auth0_management_connection: "staging"
+
+# Aes vars
+aes_key_size: 128
+aes_iteration_count: 1000
+aes_pass_phrase: "app.tdc.fashion.stg"
+
+# Scheduled tasks vars
+expiration_time_days: 1
+
+# Amazon Simple email service
+aws_email_source_email: noreply_stg@tdc.fashion
+aws_email_support_email: support_dev@tdc.fashion
+aws_email_access_key: AKIAI6GXJGAN73HVK3CQ
+aws_email_secret_key: 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
+
+# Security vars
+frontend_domain: "https://{{website_bucket_name}}"
+register_key: "CYYXZxU7bmXcDfNwIV1zUKJBrWyFW+/7gk9XUWKSv+o="
+payment_key: "sk_test_bMPrKvjeMqslVxHKfMpfMQLZ"
+charge_bank_web_hook_key: "whsec_iVKWxHz5GEwRuHfcsxu0z7OgNp8Z27p3"
+plaid_client_id: "5bc6720e44fc260011e052c0"
+plaid_public_key: "8a18454ef9989f02b6f1ead2a92387"
+plaid_secret_key: "a849d63476de0850626cc15332da12"
+plaid_environment: "develop"
+# END
+
+# Role vars: cafeto.ansible.role.aws.static_website
+website_bucket_name: app-stg.tdc.fashion
+website_bucket_region: us-east-1
+website_bucket_policy: |
+    {
+      "Version": "2008-10-17",
+      "Statement": [
+          {
+              "Sid": "AllowPublicRead",
+              "Effect": "Allow",
+              "Principal": {
+                  "AWS": "*"
+              },
+              "Action": "s3:GetObject",
+              "Resource": "arn:aws:s3:::app-stg.tdc.fashion/*"
+          }
+      ]
+    }
+# END Role vars: cafeto.ansible.role.aws.static_website

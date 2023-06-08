@@ -1,0 +1,95 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: tdcbackend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tdcbackend
+    spec:
+      containers:
+      - name: tdcbackend
+        image: "{{ tdc_registry_repository }}:{{ tdc_backend_image_version }}"
+        ports:
+        - containerPort: 8082
+          name: tdcbackend
+        env:
+        - name: DB_URL
+          value: "jdbc:postgresql://{{ database_host }}:{{ database_port }}/{{ database_app_name }}"
+        - name: DB_USER
+          value: "{{ database_app_user }}@{{ azure_db_name }}"
+        - name: DB_PASS
+          value: "{{ database_app_user_password }}"
+        - name: AUTH0_API_AUDIENCE
+          value: "{{ auth0_apiAudience }}"
+        - name: AUTH0_API_ISSUER
+          value: "{{ auth0_issuer }}"
+        - name: AZURE_CONNECTION
+          value: "{{ azure_storage_connection }}"
+        - name: AZURE_CONTAINER
+          value: "{{ azure_storage_container }}"
+        - name: CORS_DOMAIN_ALLOWED
+          value: "{{ frontend_domain }}"
+        - name: REGISTER_KEY
+          value: "{{ register_key }}"
+        - name: PAYMENT_KEY
+          value: "{{ payment_key }}"
+        - name: CHARGE_BANK_WEB_HOOK_KEY
+          value: "{{ charge_bank_web_hook_key }}"
+        - name: PLAID_CLIENT_ID_KEY
+          value: "{{ plaid_client_id }}"
+        - name: PLAID_PUBLIC_KEY
+          value: "{{ plaid_public_key }}"
+        - name: PLAID_SECRET_KEY
+          value: "{{ plaid_secret_key }}"
+        - name: PLAID_ENVIRONMENT
+          value: "{{ plaid_environment }}"
+        - name: EXPIRATION_TIME_DAYS
+          value: "{{ expiration_time_days }}"
+        - name: AWS_EMAIL_SOURCE_EMAIL
+          value: "{{ aws_email_source_email }}"
+        - name: AWS_EMAIL_SUPPORT_EMAIL
+          value: "{{ aws_email_support_email }}"
+        - name: AWS_EMAIL_ACCESS_KEY
+          value: "{{ aws_email_access_key }}"
+        - name: AWS_EMAIL_SECRET_KEY
+          value: "{{ aws_email_secret_key }}"
+        - name: AES_KEY_SIZE
+          value: "{{ aes_key_size }}"
+        - name: AES_ITERATION_COUNT
+          value: "{{ aes_iteration_count }}"
+        - name: AES_PASS_PHRASE
+          value: "{{ aes_pass_phrase }}"
+        - name: MANAGEMENT_DOMAIN
+          value: "{{ auth0_management_domain }}"
+        - name: MANAGEMENT_CLIENT_ID
+          value: "{{ auth0_management_client_id }}"
+        - name: MANAGEMENT_CLIENT_SECRET
+          value: "{{ auth0_management_client_secret }}"
+        - name: MANAGEMENT_CONNECTION
+          value: "{{ auth0_management_connection }}"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tdcbackendservice
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8082
+    targetPort: 8082
+  selector:
+    app: tdcbackend

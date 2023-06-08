@@ -1,0 +1,64 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Request Samples</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="rs-note">... </p>
+    </div>
+  </div>
+  <div class="row" *ngFor="let product of products">
+    <div class="col-md-12">
+      <p>
+        <a class="btn btn-negative" (click)="productsCollapsed[product.id] = !productsCollapsed[product.id]"
+          [attr.aria-expanded]="!productsCollapsed[product.id]" aria-controls="collapseExample">
+          <strong *ngIf="product && product.id !== null">Product # {{product.id}}</strong>
+        </a>
+      </p>
+      <div id="collapseExample" [ngbCollapse]="productsCollapsed[product.id]" *ngFor="let feature of product.features">
+        <div class="card">
+          <h5 class="card-title">Features:</h5>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-auto">
+                  <div class="form-check">
+                    <input *ngIf="mustBeShowed(8, 'CUSTOMER')" class="form-check-input position-static" type="checkbox" id="blankCheckbox" 
+                      [checked]="featureSelected[feature.id]" (change)="featureSelected[feature.id] = !featureSelected[feature.id]" 
+                      aria-label="..." (click)="selectFeature(feature)">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label>Size:</label>
+                  <input type="text" class="form-control" id="inlineFormInput" [value]="feature.size" [readonly]="true">
+                </div>
+                <div class="col-md col-md-color">
+                  <label class="color-label">Color:</label>
+                  <input *ngFor="let color of getColorList(feature.color)" class="form-control-color form-disabled"
+                    id="inlineFormInput" [colorPicker]="color" [style.background]="color">
+                </div>  
+                <div class="col-md">
+                  <label>Quantity:</label>
+                  <input #quantity="ngModel" [ngModelOptions]="{standalone: true}" type="number" min="1" max="5" class="form-control"
+                    id="inlineFormInput" [(readonly)]="!featureSelected[feature.id]" [(ngModel)]="feature.sampleQuantity"
+                    (input)="samplesSubject.next({ featureId: feature.id, quantity: quantity.value })"
+                    pattern="^$|^([1-5])?" [class.is-invalid]="quantity.errors && (quantity.dirty || quantity.touched)">
+                  <small id="emailHelp" class="form-text text-muted">Max 5 samples per feature</small>
+                  <div *ngIf="(quantity.errors && (quantity.dirty || quantity.touched))" class="invalid-feedback">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label>Quote per sample:</label>
+                  <input [ngModelOptions]="{standalone: true}" currencyMask min="0.00" [options]="{ align: 'left', allowNegative: false }" class="form-control"
+                    id="inlineFormInput" [readonly]="true" [(ngModel)]="quotePerSample[feature.id]">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+#
+# This source code is the confidential, proprietary information of
+# Cafeto Software S.A.S. here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Cafeto Software S.A.S.
+#
+# 2018: Cafeto Software S.A.S.
+# All Rights Reserved.
+#
+- name: Revoke public access to database
+  postgresql_privs:
+    database: "{{ database_name }}"
+    state: absent
+    priv: CONNECT,TEMPORARY
+    objs: "{{ database_name }}"
+    roles: public
+    type: database
+
+    login_host: "{{ database_host }}"
+    port: "{{ database_port }}"
+    login_user: "{{ database_root_user }}"
+    login_password: "{{ database_root_user_pass }}"

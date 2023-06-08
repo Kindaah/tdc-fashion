@@ -1,0 +1,24 @@
+<div class="card" style="width: 20rem;">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <div class="row" *ngIf="shippingInfo">
+          <div class="col">
+            <h6>International Shipping Company</h6>
+            <p>
+              {{shippingInfo.company}}
+            </p>
+            <h6>Tracking Number</h6>
+            <p>
+              {{shippingInfo.trackingId}}
+            </p>
+            <h6>Details</h6>
+            <p>
+              {{shippingInfo.details}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>

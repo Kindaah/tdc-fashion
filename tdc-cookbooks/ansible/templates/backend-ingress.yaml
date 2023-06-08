@@ -1,0 +1,31 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tdc-backend-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-production
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: "26m"
+spec:
+  tls:
+  - hosts:
+    - {{ api_domain_name }}
+    secretName: tls-secret-api
+  rules:
+  - host: {{ api_domain_name }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: tdcbackendservice
+          servicePort: 8082

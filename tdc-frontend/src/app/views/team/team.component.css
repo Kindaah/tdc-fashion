@@ -1,0 +1,107 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Daniel Mejia
+ * @file team.component.css
+ * @description Team view styles.
+ */
+
+.card-user {
+  margin-top: 2%;
+  background-color: #ffffff;
+  border-radius: .3em;
+  border: 0.063em solid rgba(0,0,0,.125);
+}
+
+.card-user:hover {
+  box-shadow: .1em .2em .2em 0 #919191;
+}
+
+.card-description {
+  padding: 1%;
+}
+
+.card-status-enable {
+  background-color: #e2b64d;
+  color: #ffffff;
+  border-top-right-radius: .3em;
+  border-bottom-right-radius: .3em;
+  padding: 1%;
+  text-align: right;
+}
+
+.user-title {
+  font-weight: bold;
+}
+
+.time-status {
+  text-align: right;
+}
+
+.users-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 1em;
+}
+
+.users-div {
+  flex-basis: 50em;
+  padding-right: 7em;
+}
+
+.users-row {
+  padding: 1em;
+}
+
+.user-type {
+  text-align: center;
+  color: white;
+  width: 50%;
+}
+
+.designer-user {
+  background-color: #4C4C4C;
+}
+
+.admin-user {
+  background-color: #F5A623;
+}
+
+.header-title {
+  font-weight: bold;
+}
+
+.header-btn {
+  float: right;
+  text-align: right;
+}
+
+.header-btn-item {
+  margin-right: 1%;
+}
+
+/* FILTERS */
+.view-filters {
+  margin-top: 2%;
+}
+
+.filters-btn-item {
+  margin-right: 1%;
+  margin-bottom: 1%;
+}
+
+.right-side {
+  text-align: right;
+}
+
+.modal-body {
+  padding-left: 2em;
+  padding-right: 2em;
+}

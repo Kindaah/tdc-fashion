@@ -1,0 +1,48 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Cristian Ricardo
+ * @file orders.component.css
+ * @description Orders styles
+ */
+.header-title {
+  font-weight: bold;
+}
+
+.header-btn {
+  float: right;
+  text-align: right;
+}
+
+.header-btn-item {
+  margin-right: 1%;
+}
+
+/* ORDER FILTERS */
+.order-filters {
+  margin-top: 2%;
+}
+
+.filters-btn-item {
+  margin-right: 1%;
+  margin-bottom: 1%;
+}
+
+ /* Focus negative button */
+.btn-negative:focus {
+  background-color: #363636;
+  color: #ffffff;
+}
+
+ /* Active button */
+.btn-active {
+  background-color: #363636 !important;
+  color: #ffffff;
+}

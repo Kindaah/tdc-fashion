@@ -1,0 +1,74 @@
+<div class="container header">
+  <div class="row">
+    <div class="col-md-auto">
+      <h4 class="modal-title" id="modal-basic-title">TECHNICAL DYNAMIC PACK</h4>
+    </div>
+    <div class="col right-side">
+      <button *ngIf="!formDisabled" class="btn btn-positive header-btn-item" (click)="addTechnicalSheetRow()">+ ADD NEW ITEM</button>
+    </div>
+  </div>
+  <div *ngIf="shouldShowNotification" class="row header">
+    <ngb-alert>
+      There were changes in the features sizes, please check the form and save the technical sheet.
+    </ngb-alert>
+  </div>
+</div>
+
+<form class="size technical-sheet-form" [formGroup]="technicalSheetForm">
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="row" *ngIf="!formDisabled && technicalSheetRowsFormArray.controls.length > 1"></th>
+          <th scope="col">NO</th>
+          <th scope="col">Description</th>
+          <th scope="col">TOL +/-</th>
+          <th scope="col" *ngFor="let size of sizes">{{ size }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let technicalSheetItem of technicalSheetRowsFormArray.controls; let index = index" [formGroup]="technicalSheetItem">
+          <th scope="row" *ngIf="!formDisabled && technicalSheetRowsFormArray.controls.length > 1">
+            <button (click)="removeTechnicalSheetRow(index)" class="btn btn-danger btn-sm">X</button>
+          </th>
+          <td>
+            <input class="form-control center not-border form-disabled input-code" formControlName="letter" name="letter">
+          </td>
+          <td>
+            <input class="form-control input-description" formControlName="description" name="description" placeholder="Enter value"
+              [ngClass]="formValidatorHelper.getClassCss('description', technicalSheetItem)"
+              [class.not-border]="formDisabled" [class.form-disabled]="formDisabled">
+            <div *ngFor="let errorMessage of formValidatorHelper.errors('description', technicalSheetItem)" class="invalid-feedback"> 
+              {{ errorMessage }}
+            </div>
+          </td>
+          <td>
+            <select class="form-control input-fields" formControlName="tol" name="tol" placeholder="Enter value"
+              [ngClass]="formValidatorHelper.getClassCss('tol', technicalSheetItem)"
+              [class.not-border]="formDisabled" [class.form-disabled]="formDisabled">
+              <option> Select </option>
+              <option *ngFor="let option of tolOptions" [selected]="technicalSheetItem.value.tol == option">{{ option }}</option>
+            </select>
+          </td>
+          <td *ngFor="let sizeKey of getSizeFormKeys(technicalSheetItem)" [formGroup]="getSizeForm(technicalSheetItem)">
+            <input type="number" step="0.1" class="form-control input-sizes" [formControlName]="sizeKey"
+              [ngClass]="formValidatorHelper.getClassCss(sizeKey, getSizeForm(technicalSheetItem))"
+              [class.not-border]="formDisabled" [class.form-disabled]="formDisabled">
+            <div *ngFor="let errorMessage of formValidatorHelper.errors(sizeKey, getSizeForm(technicalSheetItem))" class="invalid-feedback"> 
+              {{ errorMessage }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>
+<div class="footer right-side">
+  <button class="btn btn-negative header-btn-item" (click)="callback()">
+    CLOSE
+  </button>
+  <button *ngIf="!formDisabled" class="btn btn-positive header-btn-item"
+    (click)="saveTechnicalSheetRows()" [disabled]="!technicalSheetForm.valid">
+    SAVE
+  </button>
+</div>

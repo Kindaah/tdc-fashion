@@ -1,0 +1,41 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Daniel Mejia
+ * @file layout.component.css
+ * @description Layout styles
+ */
+
+* {
+  margin: 0%;
+  padding: 0%;
+  background-color:#f7f7f7;
+ }
+
+.right-structure {
+  padding-bottom: 2%;
+}
+
+.left-structure {
+  padding: 0%;
+}
+
+.margin {
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-top: 2%;
+}
+
+.header-fixed {
+  position: fixed;
+  z-index: 998;
+  width: 90%;
+  padding-bottom: 0.5%;
+}

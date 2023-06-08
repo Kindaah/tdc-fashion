@@ -1,0 +1,80 @@
+<div class="modal-header">
+  <h4 class="modal-title">SHIPPING ADDRESS</h4>
+</div>
+<form [formGroup]="addressForm">
+  <div class="form-group">
+    <label for="contactName">Contact Name</label>
+    <input type="text" class="form-control" formControlName="contactName" name="contactName"
+      [ngClass]="formValidatorHelper.getClassCss('contactName')"/>
+    <div *ngFor="let errorMessage of formValidatorHelper.errors('contactName')" class="invalid-feedback"> 
+      {{ errorMessage }}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="country">Country / Region</label>
+    <input type="text" class="form-control" formControlName="country" name="country"
+      [ngClass]="formValidatorHelper.getClassCss('country')"/>
+    <div *ngFor="let errorMessage of formValidatorHelper.errors('country')" class="invalid-feedback"> 
+      {{ errorMessage }}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="streetAddress">Street Address</label>
+    <input type="text" class="form-control" formControlName="streetAddress" name="streetAddress"
+      [ngClass]="formValidatorHelper.getClassCss('streetAddress')"/>
+    <div *ngFor="let errorMessage of formValidatorHelper.errors('streetAddress')" class="invalid-feedback"> 
+      {{ errorMessage }}
+    </div>
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control" formControlName="streetAddressAddInfo" 
+      placeholder="Apartment, suite, unit, etc. (optional)"/>
+  </div>
+  <div class="form-group">
+    <label for="state">State / Province / Region</label>
+    <input type="text" class="form-control" formControlName="state" name="state"
+      [ngClass]="formValidatorHelper.getClassCss('state')"/>
+    <div *ngFor="let errorMessage of formValidatorHelper.errors('state')" class="invalid-feedback"> 
+      {{ errorMessage }}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="city">City</label>
+    <input type="text" class="form-control" formControlName="city" name="city"
+      [ngClass]="formValidatorHelper.getClassCss('city')"/>
+    <div *ngFor="let errorMessage of formValidatorHelper.errors('city')" class="invalid-feedback"> 
+      {{ errorMessage }}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="postalCode">Zip / Postal Code</label>
+    <input type="text" class="form-control" formControlName="postalCode" name="postalCode"
+      [ngClass]="formValidatorHelper.getClassCss('postalCode')"/>
+    <div *ngFor="let errorMessage of formValidatorHelper.errors('postalCode')" class="invalid-feedback"> 
+      {{ errorMessage }}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="countryCode">Country Code</label>
+    <input type="text" class="form-control" formControlName="countryCode" name="countryCode"
+      [ngClass]="formValidatorHelper.getClassCss('countryCode')"/>
+    <div *ngFor="let errorMessage of formValidatorHelper.errors('countryCode')" class="invalid-feedback"> 
+      {{ errorMessage }}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="phoneNumber">Mobile Number</label>
+    <input type="text" class="form-control" formControlName="phoneNumber" name="phoneNumber"
+      [ngClass]="formValidatorHelper.getClassCss('phoneNumber')"/>
+    <div *ngFor="let errorMessage of formValidatorHelper.errors('phoneNumber')" class="invalid-feedback"> 
+      {{ errorMessage }}
+    </div>
+  </div>
+</form>
+<div class="modal-footer">
+  <ng-content select="[actions]"></ng-content>
+  <button class="btn btn-positive" (click)="shippingAddress?.id ? updateShippingAddress() : saveShippingAddress()" 
+    [disabled]="!addressForm.valid || addressForm.pristine"> 
+    SAVE 
+  </button>
+</div>

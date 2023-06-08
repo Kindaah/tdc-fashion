@@ -1,0 +1,28 @@
+#
+# This source code is the confidential, proprietary information of
+#  Dress Club here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+
+FROM gradle:jdk8
+
+USER root
+RUN apt-get update && \
+    wget http://ftp.br.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.2l-1~bpo8+1_amd64.deb && \
+    dpkg -i libssl1.0.0_1.0.2l-1~bpo8+1_amd64.deb && \
+    apt install python-setuptools -y && \
+    easy_install pip && \
+    pip install ansible==2.6.1 && \
+    AZ_REPO=jessie && \
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | tee /etc/apt/sources.list.d/azure-cli.list && \
+    curl -L https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+    apt-get install apt-transport-https && \
+    apt-get update && \
+    apt-get install azure-cli=2.0.41-1~jessie && \
+    pip install ansible[azure] && \
+    az aks install-cli && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

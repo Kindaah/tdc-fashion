@@ -1,0 +1,102 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+
+Vagrant.configure("2") do |config|
+  
+  config.vm.box = "ubuntu/xenial64"
+  config.vm.box_version = "20180518.0.0"
+
+  config.vm.box_check_update = false
+
+  config.vm.network "forwarded_port", guest: 5432, host: 5432, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 8081, host: 8081, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
+
+  config.vm.synced_folder "../", "/src"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "1024"
+  end
+ 
+  config.vm.provision "shell", inline: <<-SHELL
+  
+    if ! [ -x "$(command -v docker)" ]; then
+      echo 'Docker is not installed. So it will be installed.'
+      apt-get update
+      apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
+      sudo apt-get update
+      apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        software-properties-common
+          
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      apt-key fingerprint 0EBFCD88
+
+      add-apt-repository \
+        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) \
+        stable"
+        
+      sudo apt-get update
+
+      apt-get install -y docker-ce=18.03.1~ce-0~ubuntu
+    fi
+    
+    if ! [ -x "$(command -v docker-compose)" ]; then
+      echo 'Docker-compose is not installed. So it will be installed.'
+      sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+      sudo chmod +x /usr/local/bin/docker-compose
+    fi  
+    if ! [ -x "$(command -v ansible)" ]; then
+      echo 'Ansible is not installed. So it will be installed.'
+      sudo apt-get update
+      sudo apt install python-setuptools -y
+      sudo easy_install pip
+      pip install ansible==2.6.1
+      pip install psycopg2==2.7.4
+      pip install boto3==1.8.6
+    fi
+
+    if ! [ -x "$(command -v helm)" ]; then
+      echo 'Helm is not installed. So it will be installed.'
+      wget https://storage.googleapis.com/kubernetes-helm/helm-v2.11.0-linux-amd64.tar.gz -O /tmp/helm-v2.11.0-linux-amd64.tar.gz
+      mkdir /tmp/helm-v2.11.0-linux-amd64
+      tar -zxvf /tmp/helm-v2.11.0-linux-amd64.tar.gz -C /tmp/helm-v2.11.0-linux-amd64
+      mv /tmp/helm-v2.11.0-linux-amd64/linux-amd64/helm /usr/local/bin/helm
+      rm /tmp/helm-v2.11.0-linux-amd64.tar.gz
+    fi
+  SHELL
+  
+  config.vm.provision "shell", inline: <<-SHELL
+    AZ_REPO=$(lsb_release -cs)
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
+    sudo tee /etc/apt/sources.list.d/azure-cli.list
+    curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+    sudo apt-get install apt-transport-https
+    sudo apt-get update
+    sudo apt-get install azure-cli=2.0.41-1~xenial -y
+    pip install ansible[azure]
+    az aks install-cli
+    pip install docker-py==1.10.6
+  SHELL
+    
+  config.vm.provision "shell", inline: <<-SHELL
+    docker image prune -f
+    docker-compose -f /vagrant/postgres/docker-compose.yml up -d
+    docker-compose -f /vagrant/camunda/docker-compose.yml up -d
+    cd /vagrant/ansible
+    ansible-playbook -i inventories/vm postgresql_create_databases.yml
+  SHELL
+  
+end

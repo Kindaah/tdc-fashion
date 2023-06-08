@@ -1,0 +1,169 @@
+<app-layout>
+  <div header-content>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md">
+          <div class="header-btn-back">
+            <a [routerLink]="['/users']" class="btn btn-positive header-btn-item">Back</a>
+          </div>
+        </div>  
+      </div>
+      <div class="row">
+        <div class="col-md">
+          <div class="row">
+            <div class="col text-left header-btn">
+              <h2>COMPANY INFORMATION</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md header-btn">
+          <button (click)="canEditInformation = true" class="btn btn-positive header-btn-item" *ngIf="!canEditInformation"> EDIT </button>
+          <button (click)="resetForm()" class="btn btn-negative header-btn-item" *ngIf="canEditInformation"> CANCEL </button>
+          <button form="companyInfoForm" class="btn btn-positive header-btn-item" *ngIf="canEditInformation" [disabled]="!companyInfoForm.valid || companyInfoForm.pristine"> 
+            SAVE 
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div body-content>
+    <div class="card contact-infomartion">
+      <form id="companyInfoForm" [formGroup]="companyInfoForm" (ngSubmit)="saveCompanyInfo()">
+        <div class="row">
+          <div class="col-md-12 form-register">
+            <div class="form-group">
+              <label for=name><strong>Company name:</strong></label>
+              <input formControlName="name" name="name" class="form-control" placeholder="Enter the company name"
+                [ngClass]="formValidatorHelper.getClassCss('name')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('name')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="country"><strong>Country / Region:</strong></label>
+              <input formControlName="country" name="country" class="form-control" placeholder="Enter the country / region"
+                [ngClass]="formValidatorHelper.getClassCss('country')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('country')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="state"><strong>State / Province / Region:</strong></label>
+              <input formControlName="state" name="state" class="form-control" placeholder="Enter the state / province / region"
+                [ngClass]="formValidatorHelper.getClassCss('state')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('state')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="city"><strong>City:</strong></label>
+              <input formControlName="city" name="city" class="form-control" placeholder="Enter the city"
+                [ngClass]="formValidatorHelper.getClassCss('city')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('city')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="streetAddress"><strong>Street address:</strong></label>
+              <input formControlName="streetAddress" name="streetAddress" class="form-control" placeholder="Enter the street address"
+                [ngClass]="formValidatorHelper.getClassCss('streetAddress')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('streetAddress')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <input formControlName="addressAditionalInfo" name="addressAditionalInfo" class="form-control"
+                placeholder="Apartament, office, suite, unit, etc. (Optional)"
+                [ngClass]="formValidatorHelper.getClassCss('addressAditionalInfo')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('addressAditionalInfo')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="postalCode"><strong>Zip / Postal code:</strong></label>
+              <input formControlName="postalCode" name="postalCode" class="form-control" placeholder="Enter the zip / postal code"
+                [ngClass]="formValidatorHelper.getClassCss('postalCode')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('postalCode')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="website"><strong>Website:</strong></label>
+              <input formControlName="website" name="website" class="form-control" placeholder="Enter the website"
+                [ngClass]="formValidatorHelper.getClassCss('website')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('website')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="trademarkName"><strong>Trademark name:</strong></label>
+              <input formControlName="trademarkName" name="trademarkName" class="form-control" placeholder="Enter the trademark name"
+                [ngClass]="formValidatorHelper.getClassCss('trademarkName')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('trademarkName')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="trademarkRegistrationNumber"><strong>Trademark registration number:</strong></label>
+              <input formControlName="trademarkRegistrationNumber" name="trademarkRegistrationNumber" class="form-control"
+                placeholder="12345678"
+                [ngClass]="formValidatorHelper.getClassCss('trademarkRegistrationNumber')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('trademarkRegistrationNumber')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="salesTaxPermit"><strong>Sales tax permit:</strong></label>
+              <input formControlName="salesTaxPermit" name="salesTaxPermit" class="form-control" placeholder="1234567890"
+                [ngClass]="formValidatorHelper.getClassCss('salesTaxPermit')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('salesTaxPermit')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="dunNumber"><strong>DUN #:</strong></label>
+              <input formControlName="dunNumber" name="dunNumber" class="form-control" placeholder="123456789"
+                [ngClass]="formValidatorHelper.getClassCss('dunNumber')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('dunNumber')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="einNumber"><strong>EIN #:</strong></label>
+              <input formControlName="einNumber" name="einNumber" class="form-control" placeholder="12-1234567"
+                [ngClass]="formValidatorHelper.getClassCss('einNumber')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('einNumber')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="nearestAirport"><strong>Nearest airport:</strong></label>
+              <input formControlName="nearestAirport" name="nearestAirport" class="form-control" placeholder="Enter the nearest airport"
+                [ngClass]="formValidatorHelper.getClassCss('nearestAirport')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('nearestAirport')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="secondNearestAirport"><strong>2ND nearest airport:</strong></label>
+              <input formControlName="secondNearestAirport" name="secondNearestAirport" class="form-control"
+                placeholder="Enter the 2ND nearest airport" [ngClass]="formValidatorHelper.getClassCss('secondNearestAirport')"
+                [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('secondNearestAirport')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lineBusiness"><strong>Company line of business:</strong></label>
+              <input formControlName="lineBusiness" name="lineBusiness" class="form-control" placeholder="Enter the company line of business"
+                [ngClass]="formValidatorHelper.getClassCss('lineBusiness')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('lineBusiness')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</app-layout>

@@ -1,0 +1,192 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Daniel Mejia
+ * @file menu.component.css
+ * @description Menu styles
+ */
+
+.structure-menu {
+  margin: 0%;
+  padding: 0%;
+  margin-bottom: 100%; 
+}
+
+.general-menu {
+  background-color: #746F75;
+  height: 100vh;
+  width: 100%;
+  text-align: center;
+  padding-top: 10%;
+  padding-bottom: 0%;
+  position: relative; 
+}
+
+.general-menu-admin {
+  background-color: #E2B64D;
+  height: 100vh;
+  width: 100%;
+  text-align: center;
+  padding-top: 10%;
+  padding-bottom: 0%;
+  position: relative; 
+}
+
+.logo-menu {
+  margin-bottom: 2.5em; 
+}
+
+.list-menu {
+  box-shadow: 0;
+  width: auto;
+  margin: 0; 
+}
+
+.list-group-item {
+  border-radius: 0;
+  background-color: #746F75;
+  border: 0;
+  height: auto; 
+}
+
+.list-group-item:hover {
+  background-color: #494449; 
+}
+
+.list-group-item.active {
+  z-index: 2;
+  color: #ffffff;
+  background-color: #E2B64D; 
+}
+
+.list-group-item-desginer {
+  border-radius: 0;
+  background-color: #746F75;
+  border: 0;
+  height: auto; 
+}
+
+.list-group-item-desginer:hover {
+  background-color: #494449; 
+}
+
+.list-group-item-desginer.active {
+  z-index: 2;
+  color: #ffffff;
+  background-color: #C35E6A; 
+}
+
+.list-group-item-admin {
+  border-radius: 0;
+  background-color: #E2B64D !important;
+  border: 0;
+  height: auto; 
+}
+
+.list-group-item-admin:hover {
+  background-color: #C8A144 !important; 
+}
+
+.list-group-item-admin.active {
+  z-index: 2;
+  color: #ffffff;
+  background-color: #494449 !important; 
+}
+
+footer {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  text-align: center;
+  background-color: #494449;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+footer .btn-logout {
+  background-color: #494449;
+  border: 0;
+}
+
+footer .btn-logout .text-logout {
+  margin-top: .2em;
+}
+
+footer .btn-logout:hover {
+  background-color: #3B383B; 
+}
+
+.footer-admin {
+  background-color: #C8A144 !important;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-admin .btn-logout-admin {
+  background-color: #C8A144;
+  border: 0;
+}
+
+.footer-admin .btn-logout-admin .text-logout {
+  margin-top: .2em;
+}
+
+.footer-admin .btn-logout-admin:hover {
+  background-color: #C8A144; 
+}
+
+.text-logout {
+  color: #bdbdbd !important;
+}
+
+.text-logout-admin {
+  color: #ffffff !important;
+}
+/* MOBILE */
+    
+@media only screen and (min-width: 840px) {
+  .general-menu-small {
+    display: none;
+  }
+}
+
+.bg-light {
+  background-color: #746F75 !important;
+}
+
+.nav-link {
+  filter: grayscale(100%) !important;
+}
+
+.nav-link:focus {
+  background-color: #494449;
+  font-weight: bold;
+}
+
+.navbar-toggler {
+  color: #ffffff;
+}
+
+.navbar-toggler-icon {
+  color: #ffffff !important;
+}
+
+.menu-icon-small {
+  width: 1em;
+  margin-right: 1em;
+}
+
+img {
+  width: 2.1875em;
+}

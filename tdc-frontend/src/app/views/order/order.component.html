@@ -1,0 +1,454 @@
+<app-layout>
+  <div header-content>
+    <div class="container-fluid">
+      <div class="stepper-medium" *ngIf="userIsCustomer">
+        <div class="row">
+          <div class="col-md">
+            <div class="bs-stepper">
+              <div class="bs-stepper-header" role="tablist">
+                <div class="bs-stepper-header" *ngFor="let countDTO of countDTOsMedium; let i = index">
+                  <div class="step">
+                    <button type="button" class="btn btn-link step-trigger" 
+                      [ngClass]="countDTO.entity.id === order?.state.id || (!order && countDTO.entity.id === 1) ? 'step active' : ''"
+                      role="tab" aria-controls="logins-part">
+                      <span class="bs-stepper-circle" [ngClass]="countDTO.entity.sequenceState < order?.state.sequenceState ? 'stepBefore' : ''">
+                        <img class="stepImage" *ngIf="countDTO.entity.id === order?.state.id || (!order && countDTO.entity.id === 1)"
+                          [src]="getIcon(countDTO.entity.id)" alt="state">
+                      </span>
+                    </button>
+                  </div>
+                  <div *ngIf="i+1 !== countDTOsMedium.length" class="line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="stepper-mobile" *ngIf="userIsCustomer">
+        <div class="row">
+          <div class="col-md">
+            <div class="bs-stepper">
+              <div class="bs-stepper-header" role="tablist">
+                <div class="bs-stepper-header" *ngFor="let countDTO of countDTOsSmall; let i = index">
+                  <div class="step">
+                    <button type="button" class="btn btn-link step-trigger" 
+                      [ngClass]="countDTO.entity.id === order?.state.id || (!order && countDTO.entity.id === 1) ? 'step active' : ''"
+                      role="tab" aria-controls="logins-part">
+                      <span class="bs-stepper-circle" [ngClass]="countDTO.entity.sequenceState < order?.state.sequenceState ? 'stepBefore' : ''">
+                        <img class="stepImage" *ngIf="countDTO.entity.id === order?.state.id || (!order && countDTO.entity.id === 1)"
+                          [src]="getIcon(countDTO.entity.id)" alt="state">
+                      </span>
+                    </button>
+                  </div>
+                  <div *ngIf="i+1 !== countDTOsSmall.length" class="line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row stepper" *ngIf="userIsCustomer">
+        <div class="col-md">
+          <div class="bs-stepper">
+            <div class="bs-stepper-header" role="tablist">
+              <div class="bs-stepper-header" *ngFor="let countDTO of countDTOs; let i = index">
+                <div class="step">
+                  <button type="button" class="btn btn-link step-trigger"
+                    [ngClass]="countDTO.entity.id === order?.state.id || (!order && countDTO.entity.id === 1) ? 'step active' : ''"
+                    role="tab" aria-controls="logins-part">
+                    <span class="bs-stepper-circle" [ngClass]="countDTO.entity.sequenceState < order?.state.sequenceState ? 'stepBefore' : ''">
+                      <img class="stepImage" *ngIf="countDTO.entity.id === order?.state.id || (!order && countDTO.entity.id === 1)"
+                        [src]="getIcon(countDTO.entity.id)" alt="state">
+                    </span>
+                  </button>
+                </div>
+                <div *ngIf="i+1 !== countDTOs.length" class="line"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="row">
+            <div class="header-btn-back">
+              <a [routerLink]="['/orders']" class="btn btn-positive header-btn-item">Back</a>
+            </div>
+          </div>
+        </div>  
+        <div class="col-md-9 header-btn">
+          <button *ngIf="!order && userHelper.sessionUserIs('CUSTOMER') || mustBeShowed(1, 'CUSTOMER')" (click)="order ? update() : save()" class="btn btn-positive header-btn-item" 
+            [disabled]="order ? !enabledButtonSave : !this.orderForm.valid">
+            SAVE
+          </button>
+          <button *ngIf="!order && userHelper.sessionUserIs('CUSTOMER') || mustBeShowed(1, 'CUSTOMER')"  class="btn btn-positive header-btn-item" 
+            (click)="thereChanges ? openModal(confirmDialog) : requestQuote()" [disabled]="!enabledButtonRequestQuote">
+            REQUEST QUOTE
+          </button>
+          
+          <button *ngIf="mustBeShowed(2, 'ADMIN')" (click)="createInitialQuote()" class="btn btn-positive header-btn-item"
+            [disabled]="!this.orderForm.value.initialQuote">
+            CREATE INITIAL QUOTE
+          </button>
+
+          <button *ngIf="mustBeShowed(3, 'CUSTOMER')" (click)="openModal(modalComment)" class="btn btn-negative header-btn-item">
+            REJECT QUOTE
+          </button>
+          <button *ngIf="mustBeShowed(3, 'CUSTOMER')" (click)="approveInitialQuote()" class="btn btn-positive header-btn-item">
+            APPROVE QUOTE
+          </button>
+
+          <button *ngIf="mustBeShowed(4, 'DESIGNER')" (click)="upload3DModels()" class="btn btn-positive header-btn-item" 
+            [disabled]="!thereChanges">
+            SAVE
+          </button>
+          <button *ngIf="mustBeShowed(4, 'DESIGNER')" (click)="generate3DModels()" class="btn btn-positive header-btn-item"
+            [disabled]="!enabledButtonGenerate3DModel">
+            GENERATE 3D MODELS
+          </button>
+
+          <button *ngIf="mustBeShowed(5, 'ADMIN')" (click)="openModal(modalComment)" class="btn btn-negative header-btn-item">
+            REJECT 3D DESIGN
+          </button>
+          <button *ngIf="mustBeShowed(5, 'ADMIN')" (click)="approveModels3DAdmin()" class="btn btn-positive header-btn-item">
+            APPROVE 3D DESIGN
+          </button>
+
+          <button *ngIf="mustBeShowed(6, 'ADMIN')" (click)="createFinalQuote()" class="btn btn-positive header-btn-item"
+            [disabled]="!enabledSaveFinalQuote">
+              SAVE
+          </button>
+          <button *ngIf="mustBeShowed(6, 'ADMIN')" (click)="thereChanges ? openModal(confirmDialog) : generateFinalQuote()" class="btn btn-positive header-btn-item"
+            [disabled]="!enabledGenerateFinalQuote">
+            GENERATE FINAL QUOTE
+          </button>
+
+          <button *ngIf="mustBeShowed(7, 'CUSTOMER')" (click)="openModal(modalComment)" class="btn btn-negative header-btn-item">
+            REJECT
+          </button>
+          <button *ngIf="mustBeShowed(7, 'CUSTOMER')" (click)="approveModels3DCustomer()" class="btn btn-positive header-btn-item">
+            APPROVE
+          </button>
+
+          <button *ngIf="mustBeShowed(8, 'CUSTOMER')" class="btn btn-negative header-btn-item" (click)="openModal(confirmSkipSamples)">
+            SKIP SAMPLES
+          </button>
+          <button *ngIf="mustBeShowed(8, 'CUSTOMER')" class="btn btn-positive header-btn-item" (click)="updateFeatures()"
+            [disabled]="!enableSaveFeatureButton">
+            SAVE
+          </button>
+          <button *ngIf="mustBeShowed(8, 'CUSTOMER')" class="btn btn-positive header-btn-item" [disabled]="!enabledRequestSamplesButton || !hasCompanyInformation"
+          (click)="openShippingAddressFormModal()">
+            REQUEST SAMPLES
+          </button>
+          
+          <button *ngIf="mustBeShowed(9, 'DESIGNER')" class="btn btn-positive header-btn-item" (click)="openInfoModal()">
+            SHIPPING SAMPLES
+          </button>
+          
+          <button *ngIf="mustBeShowed(10, 'CUSTOMER')" class="btn btn-positive header-btn-item" (click)="confirOrderProduction()">
+            CONFIRM SAMPLES
+          </button>
+
+          <button *ngIf="mustBeShowed(11, 'CUSTOMER')" class="btn btn-positive header-btn-item" 
+            (click)="openShippingAddressFormModal()" [disabled]="!hasCompanyInformation">
+            MANUFACTURE ORDER
+          </button>
+
+          <button *ngIf="mustBeShowed(12, 'ADMIN')" class="btn btn-positive header-btn-item" (click)="openModal(confirmRemainingPayment)">
+            REMAINING PAYMENT
+          </button>
+
+          <button *ngIf="mustBeShowed(13, 'CUSTOMER')" class="btn btn-positive header-btn-item" (click)="openModal(paymentModal)">
+            MAKE LAST PAYMENT
+          </button>
+
+          <button *ngIf="mustBeShowed(16, 'ADMIN')" class="btn btn-positive header-btn-item" (click)="openInfoModal()">
+            SHIPPING ORDER
+          </button>
+          <button *ngIf="isOnSamplesOrManufacture && !hasCompanyInformation" class="btn btn-positive header-btn-item" (click)="sendRequest()">
+            SEND EMAIL
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col header-title">
+          <h2>{{ order && order.state.id > 1 ? 'ORDER DETAIL' : 'NEW ORDER'}}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div body-content>
+    <form [formGroup]="orderForm">
+      <div class="card card-order card-principal">
+        <div class="card-body">
+          <div class="row" *ngIf="isOnSamplesOrManufacture && !hasCompanyInformation">
+            <div class="col-md company-alert">
+              <ngb-alert type="secondary" [dismissible]="false">
+                <h6>Company Information is missing</h6><br> To continue it is necessary for an Administrator to fill in the missing information. You can send
+                a notification to the Administrator to fill that information.
+              </ngb-alert>
+            </div>
+          </div>
+          <h5 class="card-title">ORDER {{order ? '# ' + order.id : ''}} {{order ? 'STATE: ' + order.state.name : ''}}</h5>
+          
+          <div class="form-group">
+            <label for="referencePo"><h6>Reference P.O:</h6></label>
+            <input formControlName="referencePo" name="referencePo" [class.form-disabled]="formDisabled" class="form-control"
+              placeholder="Reference P.O" [ngClass]="formValidatorHelper.getClassCss('referencePo')">
+            <div *ngFor="let errorMessage of formValidatorHelper.errors('referencePo')" class="invalid-feedback"> 
+              {{ errorMessage }}
+            </div>
+            <small *ngIf="!formDisabled" class="form-text text-muted">Enter a purchase order number</small>
+          </div>
+          
+          <div *ngIf="mustBeShowed(2, 'ADMIN') || (orderAfterState(2) && orderBeforeState(17))" class="form-group">
+            <label for="initialQuote"><h6>Initial Quote:</h6></label>
+            <input formControlName="initialQuote" name="initialQuote" min="0.01" [class.form-disabled]="orderAfterState(2)" 
+              currencyMask [options]="{ align: 'left', allowNegative: false }" class="form-control" placeholder="Order intial quote"
+              [ngClass]="formValidatorHelper.getClassCss('initialQuote')">
+            <div *ngFor="let errorMessage of formValidatorHelper.errors('initialQuote')" class="invalid-feedback"> 
+              {{ errorMessage }}
+            </div>
+            <small *ngIf="mustBeShowed(2, 'ADMIN')" class="form-text text-muted">Enter a initial quote.</small>
+          </div>
+          
+          <div *ngIf="orderAfterState(5) && orderBeforeState(17) && !orderRejected()" class="form-group">
+            <label for="originCountry"><h6>Country of origin:</h6></label>
+            <input formControlName="originCountry" name="originCountry" [class.form-disabled]="orderAfterState(6)" 
+              class="form-control" placeholder="Origin Country" [ngClass]="formValidatorHelper.getClassCss('originCountry')">
+            <div *ngFor="let errorMessage of formValidatorHelper.errors('originCountry')" class="invalid-feedback"> 
+              {{ errorMessage }}
+            </div>
+          </div>
+          
+          <div *ngIf="orderAfterState(5) && orderBeforeState(17)  && !orderRejected()" class="form-group">
+            <label for="finalQuote"><h6>Final Quote:</h6></label>
+            <input formControlName="finalQuote" name="finalQuote" min="0.01" [class.form-disabled]="orderAfterState(6)" 
+              currencyMask [options]="{ align: 'left', allowNegative: false }" class="form-control" placeholder="Order final quote"
+              [ngClass]="formValidatorHelper.getClassCss('finalQuote')">
+            <div *ngFor="let errorMessage of formValidatorHelper.errors('finalQuote')" class="invalid-feedback"> 
+              {{ errorMessage }}
+            </div>
+          </div>
+          
+          <div *ngIf="orderAfterState(5) && orderBeforeState(17)  && !orderRejected()" class="form-group">
+            <label for="deliveryTime" class="row">
+              <h6 class="col-auto">Estimate Delivery Time:</h6>
+              <div *ngIf="order.deliveryTime" class="col-auto">( {{ order.deliveryTime | date: 'longDate' }} )</div>
+            </label>
+            <input type="number" min="1" formControlName="deliveryTime" name="deliveryTime" [class.form-disabled]="orderAfterState(6)" class="form-control"
+              [ngClass]="formValidatorHelper.getClassCss('deliveryTime')">
+            <div *ngFor="let errorMessage of formValidatorHelper.errors('deliveryTime')" class="invalid-feedback"> 
+              {{ errorMessage }}
+            </div>
+          </div>
+          
+          <div [hidden]="!(orderAfterState(7) && orderBeforeState(11))" class="form-group">
+            <label><h6>Samples Total:</h6></label>
+            <input formControlName="samplesTotal" currencyMask min="0.00" [options]="{ align: 'left', allowNegative: false }" class="form-control form-disabled">
+          </div>
+          
+          <div class="row">
+            <div class="col add-product">
+              <button *ngIf="!formDisabled" [disabled]="(order ? !canAddProduct : !this.orderForm.valid)" (click)="addProduct()" class="btn header-btn-item btn-positive">
+                + ADD PRODUCT
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="card card-product" *ngIf='order && order.products.length > 0'>
+      <ngb-tabset [activeId]="currentTab">
+        <div *ngIf="orderAfterState(7) && orderBeforeState(11)">
+          <ngb-tab >
+            <ng-template ngbTabTitle>RS</ng-template>
+            <ng-template ngbTabContent> 
+              <app-samples class="card card-order" [order]="order" [onSaveButton$]="notifySaveButton.asObservable()" 
+              (notifiySamples)="onNotification($event)" (samplesTotalEvent)="orderForm.get('samplesTotal').setValue($event)"
+              (notifiyFeatureSelected)="onFeatureSelected($event)">
+              </app-samples>
+            </ng-template>
+          </ngb-tab>        
+        </div>
+          
+        <div *ngIf="orderBeforeState(8) || orderAfterState(10)">
+          <ngb-tab *ngFor="let product of order.products; let i = index" [id]="i">
+            <ng-template ngbTabTitle>
+              <span>{{i + 1}} </span>
+              <button *ngIf="!product" (click)="removeProduct()" class="close remove-product" aria-label="Close">
+                <span (click)="$event.preventDefault()" aria-hidden="true">&times;</span>
+                </button>
+            </ng-template>
+            <ng-template ngbTabContent>
+              <app-product class="card card-order" [index]="i + 1" [onSaveButton$]="notifySaveButton.asObservable()" [product]="product"
+                [formDisabled]="formDisabled" [order]="order" (notifiyProductSaved)="onNotification($event)" (notifyStatus)="onProductStatusChange($event)">
+              </app-product>
+            </ng-template>
+          </ngb-tab>
+        </div>
+      </ngb-tabset>
+    </div>
+
+    <div class="card card-order card-hr card-coments" *ngIf="orderHasAddress">
+      <div class="container-fluid container-address">
+        <div class="row">
+          <div class="col-md-12">
+            <h3>Order Addresses</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card-add" *ngFor="let shippingAddressObject of order.shippingAddresses | keyvalue">
+            <app-address-info [showSelector]="false" [shippingAddress]="shippingAddressObject.value" [shippingAddressType]="shippingAddressObject.key">
+            </app-address-info>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card card-order card-hr card-coments" *ngIf="order && order.shippingInfo">
+      <div class="container-fluid container-address">
+        <div class="row">
+          <div class="col-md-12">
+            <h3>Logistic Information</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card-add">
+            <app-shipping-info [shippingInfo]="order.shippingInfo"></app-shipping-info> 
+          </div>
+        </div>
+      </div>  
+    </div>
+
+    <div class="card card-order card-hr card-coments" *ngIf="order && order.payments.length">
+      <div class="container-fluid container-address">
+        <div class="row">
+          <div class="col-md-12">
+            <h3>Payments</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card-payment">
+            <ul class="timeline">
+              <li *ngFor="let payment of order.payments" >
+                <app-payment-info [payment]="payment"></app-payment-info> 
+              </li>  
+            </ul>
+          </div>
+        </div>
+      </div>  
+    </div>
+    
+    <div class="card card-order card-hr card-coments" *ngIf="order && order.comment">
+      <app-coments [comment]="order.comment"></app-coments>
+    </div>
+  </div>
+</app-layout>
+
+<ng-template #modalComment let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Why was it rejected?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <label for="comment">Comments</label>
+    <div class="form-group">
+      <textarea rows="6" col="90" [(ngModel)]='comment' class="form-control"></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-negative header-btn-item" (click)="modal.close()">CANCEL</button>
+    <button type="button" class="btn btn-positive header-btn-item" (click)="[modal.close(), mustBeShowed(3, 'CUSTOMER') ? rejectOrder() : rejectModels3D()]">
+      REJECT
+    </button>
+  </div>
+</ng-template>  
+
+<ng-template #confirmDialog let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">CONFIRM</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Do you want to continue without save changes?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-negative header-btn-item" (click)="modal.close()">CANCEL</button>
+    <button type="button" class="btn btn-positive header-btn-item" (click)="[modal.close(), mustBeShowed(6, 'ADMIN') ? generateFinalQuote() : requestQuote()]">YES</button>
+  </div>
+</ng-template>
+
+<ng-template #confirmSkipSamples let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">CONFIRM</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to skip the samples?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-negative header-btn-item" (click)="modal.close()">CANCEL</button>
+    <button type="button" class="btn btn-positive header-btn-item" (click)="[modal.close(), confirOrderProduction()]">YES</button>
+  </div>
+</ng-template>
+
+<ng-template #confirmRemainingPayment let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">CONFIRM</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to continue?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-negative header-btn-item" (click)="modal.close()">CANCEL</button>
+    <button type="button" class="btn btn-positive header-btn-item" (click)="[modal.close(), pendingOrderLastPayment()]">YES</button>
+  </div>
+</ng-template>
+
+<ng-template #paymentModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">PAYMENT TDC FASHION</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><strong>Reason:</strong> {{ paymentStatesActions[this.order.state.id].type }} payment</p>
+    <p><strong>Total Amount:</strong> {{ paymentStatesActions[this.order.state.id].amount | currency:'USD' }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-negative header-btn-item" (click)="modal.close()">CANCEL</button>
+    <button type="button" class="btn btn-positive header-btn-item" (click)="[modal.close(), addPayment()]">PAY</button>
+  </div>
+</ng-template>
+
+<ng-template #companyRestriction let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Company Information Missing</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><strong>Your Company Information is missing</strong></p>
+    <p>To continue it is necessary for an Administrator to fill in the missing information. You can send
+      a notification to the Administrador to fill that information.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-positive header-btn-item" (click)="[modal.close()]">SEND NOTIFICATION</button>
+  </div>
+</ng-template>

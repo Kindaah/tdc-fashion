@@ -1,0 +1,54 @@
+<app-layout>
+  <div header-content>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <div class="row">
+            <div class="col text-left header-btn">
+              <h2>ADDRESSES</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col header-btn">
+          <button class="btn btn-positive header-btn-item" (click)="[selectAddress(null), modalService.open(shippingAddressModal)]">+ NEW SHIPPING ADDRESS</button>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <div body-content class="container-grid">
+    <div class="container-list">
+      <app-address-info *ngFor="let shippingAddress of currentUser?.shippingAddresses" 
+        [showSelector]="false" [shippingAddress]="shippingAddress">
+        <button actions mat-icon-button (click)="[selectAddress(shippingAddress), modalService.open(shippingAddressModal)]">
+          <mat-icon class="color-primary" aria-label="Delete shipping address button">edit</mat-icon>
+        </button>
+        <button actions mat-icon-button color="warn" (click)="[selectAddress(shippingAddress), modalService.open(deleteShippingModal)]">
+          <mat-icon aria-label="Delete shipping address button">delete</mat-icon>
+        </button>
+      </app-address-info>
+    </div>
+  </div>
+</app-layout>
+
+<ng-template #shippingAddressModal let-modal>
+  <app-address-form [shippingAddress]="selectedShipping" [user]="currentUser" (notifyShippingSaved)="[updateShippingList($event), modal.close()]">
+    <button actions class="btn btn-negative" (click)="modal.close()"> CANCEL </button>
+  </app-address-form>
+</ng-template>
+
+<ng-template #deleteShippingModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">DELETE SHIPPING ADDRESS</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete the shipping address?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-negative header-btn-item" (click)="modal.close()">CANCEL</button>
+    <button type="button" class="btn btn-positive header-btn-item" (click)="[modal.close(), deleteShippingAddress(selectedShipping.id)]">YES</button>
+  </div>
+</ng-template>
+

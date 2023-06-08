@@ -1,0 +1,93 @@
+<app-layout>
+  <div header-content>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col header-title">
+              <h2>TEAM MEMBERS</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 header-btn">
+          <button class="btn btn-positive" (click)="openAddMemberModal(addTeamMemberModal)">+ NEW TEAM MEMBER</button>
+        </div>
+      </div>
+      <div class="row view-filters">
+        <div class="col">
+          <h4>Filter by:</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button *ngFor="let typeUser of teamTypesList; let i = index" class="btn btn-negative btn-sm filters-btn-item"
+          [class.btn-active]="activeType === typeUser" (click)="activeType = typeUser">
+            {{ typeUser }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div body-content class="users-content">
+    <div *ngFor="let user of filterTeam" class="users-div">
+      <div class="col-md card-user">
+        <div class="row users-row">
+          <div class="col-md-3">
+            <img src="/assets/users/icon.png" alt='Image not available'>
+          </div>
+          <div class="col-md">
+            <div class="user-title"><h5>{{user.firstName}} {{user.lastName}}</h5></div>
+            <div class="">Email: {{user.companyEmail}}</div>
+            <div class="col user-type designer-user" [class.admin-user]="isAdmin(user)">
+              {{ user.role.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-layout>
+
+<ng-template #addTeamMemberModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">ADD TEAM MEMBER</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="registerForm">
+      <div class="row">
+        <div class="col-md-12 form-register">
+          <div class="form-group">
+            <label for=firstName>Name: </label>
+            <input formControlName="firstName" name="firstName" class="form-control" placeholder="Enter the name:"
+            [ngClass]="formValidatorHelper.getClassCss('firstName')">
+            <div *ngFor="let errorMessage of formValidatorHelper.errors('firstName')" class="invalid-feedback"> 
+              {{ errorMessage }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="companyEmail">Email: </label>
+            <input formControlName="companyEmail" name="companyEmail" class="form-control" placeholder="Enter the email"
+            [ngClass]="formValidatorHelper.getClassCss('companyEmail')">
+            <div *ngFor="let errorMessage of formValidatorHelper.errors('companyEmail')" class="invalid-feedback"> 
+              {{ errorMessage }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for=firstName>Role: </label>
+            <select class="form-control input-fields" formControlName="roleOption" name="roleOption"
+              [ngClass]="formValidatorHelper.getClassCss('roleOption')">
+              <option *ngFor="let option of teamTypes['All']" [selected]="registerForm.value.roleOption == option">{{ option }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-negative header-btn-item" (click)="modal.close()">CANCEL</button>
+    <button [disabled]="!registerForm.valid" class="btn btn-positive header-btn-item" (click)="[modal.close(), addTeamMember()]">SAVE</button>
+  </div>
+</ng-template>

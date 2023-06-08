@@ -1,0 +1,102 @@
+
+<div [className]="userIsAdmin ? 'container general-menu-admin d-none d-md-block' : 'container general-menu d-none d-md-block'">
+  <div class="row logo-menu">
+    <div [routerLink]="['/dashboard']" class="col-md-12 as-button"><img alt="Logo unable to show" src="assets/logo-tdc.png"/></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 structure-menu">
+      <div class="list-group list-menu"> 
+        <a [routerLink]="['/dashboard']" [routerLinkActive]="['active']"
+          [class.list-group-item-admin]="userIsAdmin" [class.list-group-item-desginer]="userIsDesigner"
+          class="list-group-item list-group-item-action"> 
+          <img alt="Image unable to show" src="assets/menu/dashboard-active.png"/>
+        </a>
+        <a [routerLink]="['/orders']" [routerLinkActive]="['active']"
+          [class.list-group-item-admin]="userIsAdmin" [class.list-group-item-desginer]="userIsDesigner"
+          class="list-group-item list-group-item-action">
+          <img alt="Image unable to show" src="assets/menu/orders.png"/>
+        </a>
+        <a *ngIf="mustBeShowed('CUSTOMER')" [routerLink]="['/addresses']" [routerLinkActive]="['active']"
+          class="list-group-item list-group-item-action">
+          <img alt="Image unable to show" src="assets/menu/address.png"/>
+        </a>
+        <a *ngIf="mustBeShowed('ADMIN')" [routerLink]="['/users']" [routerLinkActive]="['active']"
+          [class.list-group-item-admin]="userIsAdmin" class="list-group-item list-group-item-action">
+          <img alt="Image unable to show" src="assets/menu/customer-icon.png"/>
+        </a>
+        <a [routerLink]="['/profile']" [routerLinkActive]="['active']"
+          [class.list-group-item-admin]="userIsAdmin" [class.list-group-item-desginer]="userIsDesigner"
+          class="list-group-item list-group-item-action">
+          <img alt="Image unable to show" src="assets/menu/profile.png"/>
+        </a>
+        <a *ngIf="mustBeShowed('ADMIN')" [routerLink]="['/team']" [routerLinkActive]="['active']"
+          [class.list-group-item-admin]="userIsAdmin" [class.list-group-item-desginer]="userIsDesigner"
+          class="list-group-item list-group-item-action">
+          <img alt="Image unable to show" src="assets/menu/team.png"/>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <a (click)="logout()" [className]="userIsAdmin ? 'btn-logout-admin as-button' : 'btn-logout as-button'">
+      <footer [className]="userIsAdmin ? 'footer-admin' : ''">
+        <div class="row">
+          <div class="col-md-12"><img alt="Image unable to show" 
+            [src]="userIsAdmin ? 'assets/menu/logout-white.png' : 'assets/menu/logout.png'"/></div>
+        </div>
+        <div [className]="userIsAdmin ? 'row text-logout-admin d-none d-md-block' : 'row text-logout d-none d-md-block'">
+          <div class="col-md-12"><strong>LOGOUT</strong></div>
+        </div>
+      </footer>
+    </a>
+  </div>
+</div>
+<div class="container-fluid general-menu-small bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-light">
+    <a class="navbar-brand" [routerLink]="['/dashboard']">
+      <img src="assets/logo-tdc.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapseMenu" [ngbCollapse]="isCollapsed">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/dashboard']" [routerLinkActive]="['active']">
+            <img class="menu-icon-small" src="assets/menu/dashboard.png" alt="dashboard">Dashboard <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/orders']" [routerLinkActive]="['active']">
+            <img class="menu-icon-small" src="assets/menu/orders.png" alt="orders">Orders
+          </a>
+        </li>
+        <li *ngIf="mustBeShowed('CUSTOMER')" class="nav-item">
+          <a class="nav-link" [routerLink]="['/addresses']" [routerLinkActive]="['active']">
+            <img class="menu-icon-small" src="assets/menu/address.png" alt="shipping">Shipping
+          </a>
+        </li>
+        <li *ngIf="mustBeShowed('ADMIN')" class="nav-item">
+          <a class="nav-link" [routerLink]="['/users']" [routerLinkActive]="['active']">
+            <img class="menu-icon-small" src="assets/menu/customer-icon.png" alt="users">Users
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/profile']" [routerLinkActive]="['active']">
+            <img class="menu-icon-small" src="assets/menu/profile.png" alt="profile">Profile
+          </a>
+        </li>
+        <li *ngIf="mustBeShowed('ADMIN')" class="nav-item">
+          <a class="nav-link" [routerLink]="['/team']" [routerLinkActive]="['active']">
+            <img class="menu-icon-small" src="assets/menu/team.png" alt="team">Team
+          </a>
+        </li>
+        <li class="nav-item">
+          <a (click)="logout()" class="nav-link">
+            <img class="menu-icon-small" src="assets/menu/logout.png" alt="logout">Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

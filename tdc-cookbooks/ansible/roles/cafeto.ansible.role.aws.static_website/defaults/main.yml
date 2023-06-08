@@ -1,0 +1,27 @@
+#
+# This source code is the confidential, proprietary information of
+# Cafeto Software S.A.S. here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Cafeto Software S.A.S.
+#
+# 2018: Cafeto Software S.A.S.
+# All Rights Reserved.
+#
+---
+website_bucket_name: env.example.com
+website_bucket_region: us-east-1
+website_bucket_policy: |
+    {
+      "Version": "2008-10-17",
+      "Statement": [
+          {
+              "Sid": "AllowPublicRead",
+              "Effect": "Allow",
+              "Principal": {
+                  "AWS": "*"
+              },
+              "Action": "s3:GetObject",
+              "Resource": "arn:aws:s3:::env.example.com/*"
+          }
+      ]
+    }

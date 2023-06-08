@@ -1,0 +1,37 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+---
+- name: Create Kubernetes Services
+  hosts: localhost
+  connection: local
+  gather_facts: False
+     
+  tasks:
+  
+  - name: Get Credentials
+    command: "az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_SECRET --tenant $AZURE_TENANT"
+    
+  - name: Get Credentials
+    command: "az aks get-credentials --resource-group {{ azure_resource_group_name }} --name {{ azure_aks_name }}"
+    
+  - name: create some file
+    template: src=camunda.template.yaml dest=camunda.play.yaml
+    delegate_to: localhost
+  
+  - name: Deploy Camunda
+    command: "kubectl apply -f camunda.play.yaml"
+    
+  - name: Test application
+    command: "kubectl get service camunda"
+    register: get_service_result
+    
+  - name: Service
+    debug:
+        msg: "{{ get_service_result.stdout_lines }}"

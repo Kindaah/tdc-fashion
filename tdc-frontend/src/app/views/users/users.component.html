@@ -1,0 +1,47 @@
+<app-layout>
+  <div header-content>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col header-title">
+              <h2>USERS</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row order-filters">
+        <div class="col">
+          <h4>Filter by:</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button type="button" class="btn btn-negative btn-sm filters-btn-item" *ngFor="let companyState of companyStates" (click)="filterUsers(companyState)"
+            [class.btn-active]="companyState === flagButtonActive">
+            {{companyState}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div body-content class="users-content">
+      <div *ngFor="let user of usersFiltered" class="users-div">
+        <div class="col-md card-orders" [routerLink]="['/users', user.id, 'company']">
+          <div class="row users-row">
+            <div class="col-md-3">
+              <img [src]="hasCompany(user) ? '/assets/users/complete-user.png' : '/assets/users/incomplete-user.png'" 
+                alt='Image not available'>
+            </div>
+            <div class="col-md">
+              <div class="order-title"><h5>{{user.firstName}} {{user.lastName}}</h5></div>
+              <div class="">Email: {{user.companyEmail}}</div>
+              <div class="col payment-amount-state user-company" [ngClass]="hasCompany(user) ? 'user-company-complete' : 'user-company-incomplete'">
+                {{hasCompany(user) ? 'Complete' : 'Incomplete'}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</app-layout>

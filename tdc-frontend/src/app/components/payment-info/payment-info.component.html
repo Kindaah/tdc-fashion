@@ -1,0 +1,35 @@
+<div class="container-fluid">
+  <div class="row card-row">
+    <div class="col-md payment-date card-radius">
+      <div class="row">
+        <div class="col"><h5>Date:</h5></div>
+      </div>
+      <div class="row">
+        <div class="col">{{ payment.createdAt | date }}</div>
+      </div>
+    </div>
+    <div class="col-10 card-radius">
+      <div class="row">
+        <div class="col-10">
+          <div class="row">
+            <div class="col-md-auto"><h5>Transaction ID: </h5> </div> {{ payment.paymentKey }}
+          </div>
+          <div class="row">
+            <div class="col"> {{ payment.paymentType.description }} </div>
+          </div>
+        </div>
+        <div class="col-2 payment-amount">
+          <div class="row">
+            <div class="col nowrap-text"><h6>Amount</h6></div>
+          </div>
+          <div class="row">
+            <div class="col nowrap-text">{{ payment.amount | currency }}</div>
+          </div>
+          <div class="row">
+            <div class="col payment-amount-state nowrap-text" [ngClass]="'payment-amount-' + payment.status">{{ payment.status | titlecase }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

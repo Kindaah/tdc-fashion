@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="row card-orders">
+    <div class="col-8 card-description">
+      <div class="row">
+        <div class="col order-title"><h5>Order # {{countDTO.entity.id}} - {{countDTO.entity.referencePo}}</h5></div>
+      </div>
+      <div class="row">
+        <div class="col">Products: {{countDTO.count}}</div>
+      </div>
+      <div class="row">
+        <div *ngIf="countDTO.entity.initialQuote && !countDTO.entity.finalQuote" class="col order-title">
+          <h5>Quote: {{countDTO.entity.initialQuote | currency:'USD':'symbol-narrow'}}</h5>
+        </div>
+        <div *ngIf="countDTO.entity.finalQuote" class="col order-title"><h5>Quote: {{countDTO.entity.finalQuote | currency:'USD':'symbol-narrow'}}</h5></div>
+      </div>
+    </div>
+    <div class="col card-status-enable">
+      <div class="row">
+        <div class="col order-title-status"><h5>{{countDTO.entity.state.name}}</h5></div>
+      </div>
+      <div class="row">
+        <div class="col .time-status">{{formattedDate}}</div>
+      </div>
+    </div>
+  </div>
+</div>

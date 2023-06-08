@@ -1,0 +1,120 @@
+<div class="container-fluid general-login content-scroll">
+  <div class="row">
+    <div class="col-md-6 left-section">
+      <div class="row">
+        <div class="col-md-12 login-logo">
+          <div class="d-none d-md-block">
+            <img src="assets/logo-tdc-large.png" alt="">
+          </div>
+          <div class="d-md-none d-xs-block login-logo-small">
+            <img src="assets/logo-tdc-large.png" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 d-none d-md-block">
+          <h2 class="principal-title">Sustainable Fashion Manufacturing on Demand</h2>
+          <h5 class="secondary-title">Join our community and speed up your collection's manufacturing. Get your order in just 14 business days!</h5> 
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 d-none d-md-block">
+          <a [routerLink]="['/register']" class="btn btn-lg btn-register">Register</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 right-section">
+      <div class="card">
+        <div *ngIf="showLogin" class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <img src="assets/login/shape.png" alt=""> 
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="form-principal-title">Already a member?</h2>
+              <h5 class="form-secondary-title">Login now and place your orders.</h5>
+              <ngb-alert *ngIf="message" [type]="typeMessage" [dismissible]="false">
+                {{ message }}
+              </ngb-alert>   
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <div class="form-group">
+                  <label for="username">Email:</label>
+                  <input formControlName="username" name="username" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter your email"
+                  [ngClass]="formValidatorHelper.getClassCss('username')">
+                  <div *ngFor="let errorMessage of formValidatorHelper.errors('username')" class="invalid-feedback"> 
+                    {{ errorMessage }}
+                  </div>
+                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                  <label for="password">Password:</label>
+                  <input formControlName="password" name="password" type="password" class="form-control" placeholder="Password" (ngSubmit)="login()"
+                  [ngClass]="formValidatorHelper.getClassCss('password')">
+                  <div *ngFor="let errorMessage of formValidatorHelper.errors('password')" class="invalid-feedback"> 
+                    {{ errorMessage }}
+                  </div>
+                </div>
+                <div class="button-form">
+                  <button [disabled]="!loginForm.valid" type="submit" class="btn btn-lg btn-block btn-login">Login</button>
+                  <div class="d-md-none d-xs-block">
+                    <button type="submit" class="btn btn-lg btn-block btn-register-form">Register</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 forgotten-form">
+              <a (click)="changeView(false)">Forgotten password?</a>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!showLogin" class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="form-principal-title">Forgotten your password?</h2>
+              <h5 class="form-secondary-title">Enter your email to reset password.</h5>
+              <ngb-alert *ngIf="message" [type]="typeMessage" [dismissible]="false">
+                {{ message }}
+              </ngb-alert>  
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <form [formGroup]="forgotPasswordForm" (ngSubmit)="sendRecoverPassword()">
+                <div class="form-group form-recovery">
+                  <label for="forgotPassword">Email:</label>
+                  <input formControlName="email" name="forgotPassword" type="email" class="form-control" (ngSubmit)="sendRecoverPassword()" placeholder="Enter your email address"
+                  [ngClass]="formValidatorHelper.getClassCss('email', forgotPasswordForm)">
+                  <div *ngFor="let errorMessage of formValidatorHelper.errors('email', forgotPasswordForm)" class="invalid-feedback"> 
+                    {{ errorMessage }}
+                  </div>
+                </div>
+                <div class="button-form">
+                    <button [disabled]="!forgotPasswordForm.valid" type="submit" class="btn btn-lg btn-block btn-positive">SEND RECOVERY EMAIL</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 forgotten-form">
+              <a (click)="changeView(true)">Back to Login</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor = "rgba(51, 51, 51, 0.8)"
+  size = "large"
+  color = "#e2b64d"
+  type = "ball-atom">
+</ngx-spinner>

@@ -1,0 +1,22 @@
+#
+# This source code is the confidential, proprietary information of
+# Cafeto Software S.A.S. here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Cafeto Software S.A.S.
+#
+# 2018: Cafeto Software S.A.S.
+# All Rights Reserved.
+#
+---
+
+database_name: database
+database_host: example.com
+database_port: 5432
+database_root_user: root_user
+database_root_user_pass: root_user_pass
+
+database_role: database_role
+database_user: database_user
+database_user_password: database_user_pass
+database_support_user: database_support_user
+database_support_user_password: database_support_user

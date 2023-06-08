@@ -1,0 +1,37 @@
+<app-layout>
+  <div header-content>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col header-title">
+              <h2>ORDERS</h2>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="userHelper.sessionUserIs('CUSTOMER')" class="col-md-9 header-btn">
+          <a [routerLink]="['/orders/new']" class="btn btn-positive header-btn-item">+ NEW ORDER</a>
+        </div>
+        </div>
+        <div class="row order-filters">
+          <div class="col">
+            <h4>Filter by:</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button type="button" class="btn btn-negative btn-sm filters-btn-item" *ngFor="let state of states" (click)="filterOrders(state)"
+            [class.btn-active]="state === flagButtonActive">
+              {{state}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div body-content>
+      <app-card *ngFor="let countDTO of countDTOsFiltered" [countDTO]="countDTO" [routerLink]="['/orders/', countDTO.entity.id]"></app-card>
+      <div class="create-order" *ngIf="countDTOsFiltered && countDTOsFiltered.length === 0">
+        <img src="../../../assets/dashboard/Create-order.png" alt='Image not available'>
+      </div>
+    </div>
+</app-layout>

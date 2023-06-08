@@ -1,0 +1,22 @@
+#
+# This source code is the confidential, proprietary information of
+#  Dress Club here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+
+FROM node:8.11.3
+
+RUN apt update && \
+    apt install -y rsync libunwind-dev && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN wget -O azcopy.tar.gz https://aka.ms/downloadazcopylinux64 && \
+    tar -xf azcopy.tar.gz && \
+    ./install.sh && \
+    rm azcopy.tar.gz
+
+RUN npm install apidoc@0.17.6 -g

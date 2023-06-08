@@ -1,0 +1,161 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Daniel Mejia
+ * @file order.component.css
+ * @description Order styles
+ */
+
+.header-title {
+  font-weight: bold;
+}
+
+.header-btn-item {
+  margin-right: 1%;
+}
+
+.add-product {
+  margin-top: 1%;
+  text-align: right;
+}
+
+.card-principal {
+  padding-bottom: 2em;
+}
+
+.card-order {
+  margin-bottom: 1em;
+}
+
+.card-product {
+  margin-top: -3em;
+  border: 0;
+  background-color: transparent;
+}
+
+.remove-product {
+  padding-left: 0.2em !important;
+  color: #ffffff !important;
+}
+
+.card-payment {
+  width: 100%;
+  margin-right: 2em;
+}
+
+.timeline {
+  list-style-type: none;
+  position: relative;
+}
+
+.timeline:before {
+  content: ' ';
+  background: #d4d9df;
+  display: inline-block;
+  position: absolute;
+  left: 1.875em;
+  width: 0.125em;
+  height: 100%;
+  z-index: 1;
+}
+
+.timeline > li {
+  margin: 1.25em 0;
+  padding-left: 1.25em;
+}
+
+.timeline > li:before {
+  content: ' ';
+  background: white;
+  display: inline-block;
+  position: absolute;
+  border-radius: 50%;
+  border: 0.45em solid #e2b64d;
+  left: 1.25em;
+  width: 1.25em;
+  height: 1.25em;
+  z-index: 1;
+}
+
+.company-alert {
+  padding-top: 0.5em;
+}
+
+.stepImage {
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 0.3em;
+}
+
+.stepBefore {
+  background-color: #E2B64D !important;
+}
+
+@media only screen and (min-width: 1481px) {
+  .stepper-mobile {
+    display: none;
+  }
+
+  .stepper-medium {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1480px) {
+  .stepper {
+    display: none;
+  }
+
+  .stepper-mobile {
+    display: none;
+  }
+
+  .bs-stepper-header {
+    width: fit-content !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .stepper-medium {
+    display: none;
+  }
+
+  .stepper-mobile {
+    display: block;
+  }
+
+  .bs-stepper-header {
+    width: fit-content !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .bs-stepper:not(.vertical) .bs-stepper-header {
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-align: start;
+    align-items: flex-start;
+  }
+
+  .bs-stepper:not(.vertical) .line {
+    border-top: 0.06em solid rgba(0, 0, 0, 0.12) !important;
+    -ms-flex: auto !important;
+    flex: auto !important;
+    height: 0 !important;
+    min-width: 2em !important;
+    min-height: 0 !important;
+    width: 2em !important;
+    min-width: 2em !important;
+    border-left: none !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    margin-top: 2em !important;
+  }
+}

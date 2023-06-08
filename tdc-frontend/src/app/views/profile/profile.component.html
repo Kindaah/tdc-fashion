@@ -1,0 +1,111 @@
+<app-layout>
+  <div header-content>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col text-left header-btn">
+              <h2>PROFILE</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 header-btn">
+          <button (click)="openModal(passwordModal)" class="btn btn-positive header-btn-item" *ngIf="!canEditInformation"> CHANGE PASSWORD </button>
+          <button (click)="canEditInformation = true" class="btn btn-positive header-btn-item" *ngIf="!canEditInformation"> EDIT </button>
+          <button (click)="resetForm()" class="btn btn-negative header-btn-item" *ngIf="canEditInformation"> CANCEL </button>
+          <button form="profileForm" class="btn btn-positive header-btn-item" *ngIf="canEditInformation" [disabled]="!profileForm.valid || profileForm.pristine"> 
+            SAVE 
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div body-content>
+    <div class="card contact-infomartion">
+      <form id="profileForm" [formGroup]="profileForm" (ngSubmit)="updateUser()">
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Contact information:</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-register">
+            <div class="form-group">
+              <label for=firstName>First name:</label>
+              <input formControlName="firstName" name="firstName" class="form-control" placeholder="Enter your first name:"
+                [ngClass]="formValidatorHelper.getClassCss('firstName')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('firstName')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last name:</label>
+              <input formControlName="lastName" name="lastName" class="form-control" placeholder="Enter your last name"
+                [ngClass]="formValidatorHelper.getClassCss('lastName')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('lastName')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="companyEmail">Company email address:</label>
+              <input formControlName="companyEmail" name="companyEmail" class="form-control" placeholder="Enter your email" readonly>
+            </div>
+            <div class="form-group">
+              <label for="phoneNumber">Mobile number:</label>
+              <input formControlName="phoneNumber" name="phoneNumber" class="form-control" placeholder="Enter your mobile number"
+                [ngClass]="formValidatorHelper.getClassCss('phoneNumber')" [class.form-disabled]="!canEditInformation">
+              <div *ngFor="let errorMessage of formValidatorHelper.errors('phoneNumber')" class="invalid-feedback"> 
+                {{ errorMessage }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</app-layout>
+
+<ng-template #passwordModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Change Password</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="changePasswordForm">
+      <div class="form-group">
+        <label for="currentPassword">Current Password:</label>
+        <input formControlName="currentPassword" name="currentPassword" type="password" class="form-control" placeholder="Enter your current password"
+          [ngClass]="formValidatorHelperPassword.getClassCss('currentPassword')">
+        <div *ngFor="let errorMessage of formValidatorHelperPassword.errors('currentPassword')" class="invalid-feedback">
+          {{ errorMessage }}
+        </div>
+      </div>
+      <div [formGroup]="newPasswordGroup" class="form-group">
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input formControlName="password" name="password" type="password" class="form-control" placeholder="Enter your new password"
+            [ngClass]="formValidatorHelperPassword.getClassCss('password', newPasswordGroup)">
+          <div *ngFor="let errorMessage of formValidatorHelperPassword.errors('password', newPasswordGroup)" class="invalid-feedback">
+            {{ errorMessage }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm password:</label>
+          <input formControlName="confirmPassword" name="confirmPassword" type="password" class="form-control" placeholder="Confirm your new password"
+            [ngClass]="formValidatorHelperPassword.getClassCss('newPasswordGroup')">
+          <div *ngFor="let errorMessage of formValidatorHelperPassword.errors('newPasswordGroup')" class="invalid-feedback"> 
+            {{ errorMessage }}
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-negative header-btn-item" (click)="modal.close()">CANCEL</button>
+    <button [disabled]="!changePasswordForm.valid" type="button" class="btn btn-positive header-btn-item" (click)="[modal.close(), validateUser()]">
+      SAVE
+    </button>
+  </div>
+</ng-template>  

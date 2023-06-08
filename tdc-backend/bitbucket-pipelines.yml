@@ -1,0 +1,77 @@
+#
+# This source code is the confidential, proprietary information of
+#  Dress Club here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+
+image:
+  name: tdcregistry.azurecr.io/tdc_pipeline/backend:0.0
+  username: $DOCKER_USER
+  password: $DOCKER_PASS
+
+pipelines:
+  branches:
+    TDC-*:
+      - step:
+          name: Feature branch
+          script:
+            - ./gradlew build --stacktrace --console=plain --no-daemon
+            - ./gradlew sonarqube --stacktrace --console=plain --no-daemon
+
+    develop:
+      - step:
+          name: Build and Deploy to Development
+          deployment: test
+          script:
+            - ./gradlew build --stacktrace --console=plain --no-daemon
+            - ./gradlew dockerLogin
+            - ./gradlew buildImage -PbuildNumber=$BITBUCKET_BUILD_NUMBER --stacktrace --console=plain --no-daemon
+            - ./gradlew pushImage -PbuildNumber=$BITBUCKET_BUILD_NUMBER --stacktrace --console=plain --no-daemon
+            - ./gradlew update -Pliquibase_url=$DEV_LIQUIBASE_URL -Pliquibase_username=$DEV_LIQUIBASE_USERNAME -Pliquibase_password=$DEV_LIQUIBASE_PASSWORD
+            - git clone --branch="develop" --depth 50 https://$REPO_USER_NAME:$REPO_USER_PASSWORD@bitbucket.org/$BITBUCKET_REPO_OWNER/$COOKBOOKS_REPO_NAME.git $BUILD_DIR
+            - cd ${COOKBOOKS_REPO_NAME}/ansible
+            - ansible-playbook -i inventories/development azure_kubernetes_backend_service.yml  -e tdc_backend_image_version=$BITBUCKET_BUILD_NUMBER
+      - step:
+          name: Documentation
+          image:
+              name: tdcregistry.azurecr.io/tdc_pipeline/backend-doc:0.0
+              username: $DOCKER_USER
+              password: $DOCKER_PASS
+          script:
+            - apidoc -i src -o documentation
+            - azcopy --source documentation --destination https://tdcstoragedevelopment.blob.core.windows.net/apidocumentation/ --recursive --dest-key $AZURE_BLOB_DOCUMENTATION_KEY --set-content-type  --quiet
+
+    release-*:
+      - step:
+          name: Build and Deploy to Staging
+          deployment: staging
+          script:
+            - ./gradlew build -Pversion.isRC=true --stacktrace --console=plain --no-daemon
+            - ./gradlew dockerLogin
+            - ./gradlew buildImage -PbuildNumber=$BITBUCKET_BUILD_NUMBER --stacktrace --console=plain --no-daemon
+            - ./gradlew pushImage -PbuildNumber=$BITBUCKET_BUILD_NUMBER --stacktrace --console=plain --no-daemon
+            - ./gradlew update -Pliquibase_url=$STG_LIQUIBASE_URL -Pliquibase_username=$STG_LIQUIBASE_USERNAME -Pliquibase_password=$STG_LIQUIBASE_PASSWORD
+            - git clone --branch="master" --depth 50 https://$REPO_USER_NAME:$REPO_USER_PASSWORD@bitbucket.org/$BITBUCKET_REPO_OWNER/$COOKBOOKS_REPO_NAME.git $BUILD_DIR
+            - cd ${COOKBOOKS_REPO_NAME}/ansible
+            - ansible-playbook -i inventories/staging azure_kubernetes_backend_service.yml -e tdc_backend_image_version=$BITBUCKET_BUILD_NUMBER
+
+    master:
+      - step:
+          name: Build and Deploy to Production
+          deployment: production
+          script:
+            - ./gradlew build -Pversion.isRelease=true --stacktrace --console=plain --no-daemon
+            - ./gradlew dockerLogin
+            - ./gradlew buildImage -PbuildNumber=$BITBUCKET_BUILD_NUMBER --stacktrace --console=plain --no-daemon
+            - ./gradlew pushImage -PbuildNumber=$BITBUCKET_BUILD_NUMBER --stacktrace --console=plain --no-daemon
+            - ./gradlew update -Pliquibase_url=$PROD_LIQUIBASE_URL -Pliquibase_username=$PROD_LIQUIBASE_USERNAME -Pliquibase_password=$PROD_LIQUIBASE_PASSWORD
+            - git clone --branch="master" --depth 50 https://$REPO_USER_NAME:$REPO_USER_PASSWORD@bitbucket.org/$BITBUCKET_REPO_OWNER/$COOKBOOKS_REPO_NAME.git $BUILD_DIR
+            - cd ${COOKBOOKS_REPO_NAME}/ansible
+            - ansible-playbook -i inventories/production azure_kubernetes_backend_service.yml -e tdc_backend_image_version=$BITBUCKET_BUILD_NUMBER
+
+options:
+  docker: true

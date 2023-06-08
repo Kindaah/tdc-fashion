@@ -1,0 +1,240 @@
+/*
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
+apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+apply plugin: 'com.bmuschko.tomcat'
+apply plugin: 'org.sonarqube'
+apply plugin: 'liquibase'
+
+repositories {
+    mavenCentral()
+    maven
+    {
+        url System.getenv('REPOSITORY_URL') ?: project.property('repository_url')
+        credentials
+        {
+            username = System.getenv('REPOSITORY_USERNAME') ?: project.property('repository_username')
+            password = System.getenv('REPOSITORY_PASSWORD') ?: project.property('repository_password')
+        }
+    }
+}
+
+buildscript {
+    repositories
+    {
+        mavenCentral()
+        maven
+        {
+            url System.getenv('REPOSITORY_URL') ?: project.property('repository_url')
+            credentials
+            {
+                username = System.getenv('REPOSITORY_USERNAME') ?: project.property('repository_username')
+                password = System.getenv('REPOSITORY_PASSWORD') ?: project.property('repository_password')
+            }
+        }
+    }
+    dependencies
+    {
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.5'
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2'
+        classpath 'org.liquibase:liquibase-core:3.6.2'
+        classpath 'org.liquibase:liquibase-gradle-plugin:2.0.0'
+        classpath 'org.postgresql:postgresql:42.2.4'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE'
+    }
+}
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+compileJava.options.encoding = "UTF-8"
+
+findbugs {
+    sourceSets = [sourceSets.main]
+    ignoreFailures = true
+    effort = "min"
+    reportLevel = "high"
+}
+
+pmd {
+    ignoreFailures true
+    rulePriority = 5
+    consoleOutput false
+    sourceSets = [sourceSets.main]
+    ruleSets = [
+            'java-basic',
+            'java-braces',
+            'java-clone',
+            'java-codesize',
+            'java-comments',
+            'java-controversial',
+            'java-coupling',
+            'java-design',
+            'java-empty',
+            'java-finalizers',
+            'java-imports',
+            'java-j2ee',
+            'java-javabeans',
+            'java-junit',
+            'java-logging-jakarta-commons',
+            'java-logging-java',
+            'java-migrating',
+            'java-naming',
+            'java-optimizations',
+            'java-strictexception',
+            'java-strings',
+            'java-sunsecure',
+            'java-typeresolution',
+            'java-unnecessary',
+            'java-unusedcode'
+    ]
+}
+
+checkstyle {
+    toolVersion = '8.9'
+    showViolations false
+    configFile file('config/checkstyle/checkstyle.xml')
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.enabled true
+    }
+}
+
+configurations {
+    providedRuntime
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.0.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-freemarker', version: '2.0.4.RELEASE'
+    compile group: 'com.microsoft.azure', name: 'azure-storage', version: '8.0.0'
+    compile group: 'com.microsoft.azure', name: 'azure-storage-spring-boot-starter', version: '2.0.4'
+    compile group: 'com.openpojo', name: 'openpojo', version: '0.8.10'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.3.4.Final'
+    compile group: 'com.vladmihalcea', name: 'hibernate-types-52', version: '2.3.5'
+    compile group: 'com.auth0', name: 'auth0-spring-security-api', version: '1.1.0'
+    compile group: 'com.stripe', name: 'stripe-java', version: '7.0.0'
+    compile 'io.jsonwebtoken:jjwt-api:0.10.5'
+    runtime 'io.jsonwebtoken:jjwt-impl:0.10.5'
+    runtime 'io.jsonwebtoken:jjwt-jackson:0.10.5'
+    providedRuntime  group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '2.0.4.RELEASE'
+    compile group: 'org.javassist', name: 'javassist', version: '3.20.0-GA'
+    compile group: 'com.plaid', name: 'plaid-java', version: '3.0.4'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-ses', version: '1.11.449'
+    compile group: 'com.auth0', name: 'auth0', version: '1.9.1'
+    compile group: 'org.apache.commons', name: 'commons-crypto', version: '1.0.0'
+
+    liquibaseRuntime  group: 'org.liquibase', name: 'liquibase-core', version: '3.6.2'
+    liquibaseRuntime  group: 'org.liquibase', name: 'liquibase-gradle-plugin', version: '2.0.0'
+    liquibaseRuntime group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
+    runtime group: 'org.postgresql', name: 'postgresql', version: '9.4.1212'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.4.RELEASE'
+    testCompile group: 'org.mockito', name: 'mockito-inline', version: '2.21.0'
+    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.0-beta.5'
+    testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.0-beta.5'
+}
+
+publishing {
+    publications {
+        pluginPublication(MavenPublication) {
+            artifact war
+        }
+    }
+    repositories {
+        maven {
+            url System.getenv('REPOSITORY_CONTEXT_URL') ?: project.property('repository_context_url')
+            credentials {
+                username = System.getenv('REPOSITORY_USERNAME') ?: project.property('repository_username')
+                password = System.getenv('REPOSITORY_PASSWORD') ?: project.property('repository_password')
+
+            }
+        }
+    }
+}
+
+sonarqube {
+    properties {
+        property 'sonar.host.url', System.getenv('SONAR_HOST_URL') ?: project.property('sonar.host.url')
+        property 'sonar.buildbreaker.alternativeServerUrl', System.getenv('SONAR_HOST_URL') ?: project.property('sonar.host.url')
+        property 'sonar.java.source', '1.8'
+        property 'sonar.java.target', '1.8'
+        property 'sonar.login', System.getenv('SONAR_LOGIN') ?: project.property('sonar.login')
+        property 'sonar.projectKey', "${group}.${project.name}"
+        property 'sonar.projectVersion', project.hasProperty('buildNumber') ? "${project.version}-${project.property('buildNumber')}" : project.version
+        property 'sonar.sourceEncoding', 'UTF-8'
+        property 'sonar.sources', 'src/main'
+        property 'sonar.tests', 'src/test'
+    }
+}
+
+task prepare(type: Copy){
+    from(tasks.war.outputs)
+    into(project.libsDir)
+    rename("${project.name}-${project.version}.war", "ROOT.war")
+}
+
+build.finalizedBy prepare
+
+task dockerLogin(type: Exec) {
+    executable "bash"
+    args "-c", "docker login --username=${System.getenv('DOCKER_USER')} --password=${System.getenv('DOCKER_PASS')} ${System.getenv('DOCKER_REGISTRY_HOST')}  "
+}
+
+task buildImage(type: Exec) {
+    executable "bash"
+    args "-c", "docker build --no-cache -t ${registry_url}/${registry_repository}/${project.name}:${ project.hasProperty('buildNumber') ? project.property('buildNumber'): 'latest'} -f Dockerfile ."
+}
+
+task pushImage(type: Exec) {
+    executable "bash"
+    args "-c", "docker push ${registry_url}/${registry_repository}/${project.name}:${ project.hasProperty('buildNumber') ? project.property('buildNumber'): 'latest'}"
+}
+
+liquibase {
+    activities {
+        main {
+            changeLogFile liquibase_changeLogFile
+            url liquibase_url
+            username liquibase_username
+            password liquibase_password
+        }
+    }
+}
+

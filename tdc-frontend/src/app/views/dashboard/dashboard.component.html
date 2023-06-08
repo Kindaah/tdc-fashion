@@ -1,0 +1,42 @@
+<app-layout>
+  <div header-content>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row">
+          <div class="col header-title">
+            <h2>DASHBOARD</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div body-content>
+    <div class="row">
+      <div *ngFor="let countDTO of countDTOs" class="col-md-6">
+        <div class="card dash-card-enable" [routerLink]="['/orders']" [queryParams]="{ filter: countDTO.entity.name}">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md">
+                <h5>{{countDTO.entity.name}}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md dash-quanty">
+                {{countDTO.count}}
+              </div>
+              <div class="col-md dash-icon">
+                <img [src]="getIcon(countDTO.entity.id)" alt='Image not available'>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="create-order" *ngIf="countDTOs && countDTOs.length === 0">
+      <img src="../../../assets/dashboard/Create-order.png" alt='Image not available'>
+      <div *ngIf="userHelper.sessionUserIs('CUSTOMER')" class="col-md-9 header-btn-dashboard">
+        <a [routerLink]="['/orders/new']" class="btn btn-positive header-btn-item">+ NEW ORDER</a>
+      </div>
+    </div>    
+  </div>
+</app-layout>

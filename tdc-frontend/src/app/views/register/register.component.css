@@ -1,0 +1,74 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Daniel Mejia
+ * @file register.component.css
+ * @description Register styles
+ */
+
+h2 {
+  color: #746f75;
+  font-weight: bold;
+}
+
+h4 {
+  color: #746f75;
+}
+
+.login-logo {
+  margin-bottom: 5%;
+}
+
+.principal-title {
+  margin-bottom: 5%;
+  color: #fff;
+}
+
+.secondary-title {
+  color: #fff;
+  margin-bottom: 5%;
+}
+
+.left-register {
+  padding-top: 2%;
+  padding-bottom: 25;
+}
+
+.right-register {
+  padding: 2%;
+  background-color: #e2b64d;
+  min-height: 100%;
+  position: static;
+}
+
+.terms-conditions {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.btn-account {
+  margin-bottom: 5%;
+}
+
+.aggreementLink {
+  color: #007bff !important;
+  text-decoration: none !important;
+  background-color: transparent !important;
+}
+
+.aggreementLink:hover {
+  color: -webkit-link !important;
+  cursor: pointer !important;
+  text-decoration: underline !important;
+}
+
+.recaptcha {
+  padding-bottom: 2em;
+}

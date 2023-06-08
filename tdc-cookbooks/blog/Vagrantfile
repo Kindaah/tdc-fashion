@@ -1,0 +1,65 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+
+Vagrant.configure("2") do |config|
+  
+  config.vm.box = "ubuntu/xenial64"
+  config.vm.box_version = "20180518.0.0"
+ 
+  config.vm.box_check_update = false
+
+  config.vm.network "forwarded_port", guest: 3306, host: 3306, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 8000, host: 8000, host_ip: "127.0.0.1"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "1024"
+  end
+ 
+  config.vm.provision "shell", inline: <<-SHELL
+  
+    if ! [ -x "$(command -v docker)" ]; then
+      echo 'Docker is not installed. So it will be installed.'
+      apt-get update
+      apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
+      sudo apt-get update
+      apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        software-properties-common
+          
+      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      apt-key fingerprint 0EBFCD88
+
+      add-apt-repository \
+        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) \
+        stable"
+        
+      sudo apt-get update
+
+      apt-get install -y docker-ce=18.03.1~ce-0~ubuntu
+    fi
+    
+    if ! [ -x "$(command -v docker-compose)" ]; then
+      echo 'Docker-compose is not installed. So it will be installed.'
+      sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+      sudo chmod +x /usr/local/bin/docker-compose
+    fi  
+    
+  SHELL
+    
+  config.vm.provision "shell", inline: <<-SHELL
+    docker-compose -f /vagrant/docker.compose.yml up -d
+  SHELL
+  
+end

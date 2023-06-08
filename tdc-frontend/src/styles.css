@@ -1,0 +1,347 @@
+/**
+ * Copyright (c) 2018 by The Dress Club.  All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * The Dress Club. ("Confidential Information").
+ * You may not disclose such Confidential Information, and may only
+ * use such Confidential Information in accordance with the terms of
+ * the license agreement you entered into with The Dress Club.
+ */
+
+/**
+ * @author Daniel Mejia
+ * @file styles.ts
+ * @description App styles
+ */
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~ng-snotify/styles/material.css';
+@import '~bs-stepper/dist/css/bs-stepper.css';
+
+html, body { 
+  height: 100%;
+  overflow: hidden; 
+}
+
+body { 
+  margin: 0; 
+  font-family: 'Roboto', sans-serif; 
+}
+
+/* BUTTONS */
+/* Positive buttons */
+.btn-positive {
+  border-color: #e2b64d;
+  color: #e2b64d;
+  background-color: transparent;
+  border-radius: 1.4em;
+  margin-right: 1%;
+}
+
+.btn-positive:hover {
+  background-color: #e2b64d;
+  color: #ffffff;
+}
+
+.btn-positive:active {
+  background-color: #BA9642;
+  color: #ffffff;
+}
+
+.btn-positive:disabled {
+  border-color: #BDBDBD;
+  color: #BDBDBD;
+  pointer-events: none;
+}
+
+/* Negative buttons */
+.btn-negative {
+  border-color: #363636;
+  color: #363636;
+  background-color: transparent;
+  border-radius: 1.4em;
+  margin-right: 1%;
+}
+
+.btn-negative:hover {
+  background-color: #363636;
+  color: #ffffff;
+}
+
+.btn-negative:active {
+  background-color: #363636;
+  color: #ffffff;
+}
+
+.form-disabled {
+  pointer-events: none;
+}
+
+/* BUTTONS NAV*/
+.nv-btn {
+  border: 0;
+  color: #363636;
+}
+
+/* title card header */
+.order-title-box {
+  background-color: #51433a;
+  width: 10%;
+  margin-left: 0;
+}
+
+.card-hr {
+  margin-bottom: 1%;
+}
+
+.as-button:hover {
+  cursor: pointer;
+}
+
+.notification-negative {
+  background-color: #363636;
+}
+
+.content-scroll {
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative; 
+}
+
+input {
+  border: 0 !important;
+  background: transparent;
+  border-bottom: solid 0.1em #ced4da !important;
+  border-radius: 0 !important;
+}
+
+.form-control:focus {
+  box-shadow: 0 0.1em 0 0 rgba(0,123,255,.25) !important;
+}
+
+.form-control.is-invalid {
+  border-bottom-color: #dc3545 !important;
+}
+
+.form-control.is-invalid:focus {
+  box-shadow: 0 0.1em 0 0 rgba(220,53,69,.25) !important;
+}
+
+.form-control.is-valid {
+  border-bottom-color: #26a69a !important;
+}
+
+.form-control.is-valid:focus {
+  box-shadow: 0 0.1em 0 0 rgba(40,167,69,.25) !important;
+}
+
+app-order ngb-tabset .nav-link {
+  padding-top: 1em !important;
+  padding-bottom: 1em !important;
+  padding-left: 0.8em !important;
+  padding-right: 0.8em !important;
+  margin-left: 1em !important;
+  background-color: #9c6e00 !important;
+  color: #ffffff !important;
+  border: 0 !important;
+}
+
+app-order ngb-tabset .nav-link.active {
+  background-color: #e2b64d !important;
+}
+
+app-order ngb-tabset ul {
+  background-color: transparent;
+}
+
+color-picker .color-picker {
+  top: 1em !important;
+  left: 19em!important;
+}
+
+.header-btn {
+  float: right;
+  text-align: right;
+}
+
+.header-btn-back {
+  float: left;
+  padding-bottom: 1em;
+}
+
+.alert.flash-message {
+  margin-bottom: 0 !important;
+}
+
+.create-order {
+  margin: 0 auto !important;
+  width: fit-content !important;
+  padding-top: 15em !important;
+}
+
+.container-address {
+  padding: 1%;
+}
+
+.card-add {
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+.drop-zone {
+  margin-top: 1em !important;
+  border: 2px dotted #E2B64D !important;
+}
+
+.drop-zone .content {
+  color: #E2B64D !important;
+}
+
+.color-tooltip .tooltip-inner{
+  background-color: #746F75;
+  padding: 0.5em;
+  border-radius: 1.4em;
+}
+
+.color-tooltip .arrow::before {
+  border-top-color: #746F75;
+}
+
+.snotify-success {
+  background-color: #E2B64D;
+}
+
+.snotify-success .snotifyToast__progressBar {
+  background-color: #C8A144;
+}
+
+.snotify-success .snotifyToast__progressBar__percentage {
+  background-color: #EFC051;
+}
+
+.snotify-success .snotifyToast__body {
+  color: #ffffff;
+}
+
+.snotify-error {
+  background-color: #000000;
+}
+
+.snotify-error .snotifyToast__progressBar {
+  background-color: #4C4C4C;
+}
+
+.snotify-error .snotifyToast__progressBar__percentage {
+  background-color: #999999;
+}
+
+.snotify-error .snotifyToast__body {
+  color: #ffffff;
+}
+
+.snotify-icon {
+  right: 14em !important;
+}
+
+.snotifyToast__inner {
+  align-items: flex-end !important;
+  padding: 0.31em 0.81em 0.31em 0.94em;
+  margin-left: 4em;
+}
+
+.snotifyToast {
+  box-shadow: .1em .2em .2em 0 #919191;
+}
+
+.snotify-rightTop {
+  right: 4em !important;
+  top: 1em !important;
+}
+
+.displayElement {
+  display: block !important;
+}
+
+.btn-deleted {
+  text-align: left;
+  padding-top: 2%;
+}
+
+.not-border {
+  border: none !important;
+}
+
+.content-scroll-modal {
+  height: 49vh !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative; 
+ }
+
+ .btn-active {
+  background-color: #363636 !important;
+  color: #ffffff;
+}
+
+ .bs-stepper .step button, .bs-stepper .step a, .bs-stepper .step .step-trigger {
+   padding: 0.75em !important;
+ }
+
+ .bs-stepper .step.active .bs-stepper-circle {
+   background-color: #E2B64D !important;
+   width: 2.5em !important;
+   height: 2.5em !important;
+ }
+
+ .bs-stepper .bs-stepper-circle {
+   width: 1.75em !important;
+   height: 1.75em !important;
+   background-color: #746F75 !important;
+   margin-right: 0em;
+ }
+
+ .bs-stepper .bs-stepper-header {
+   width: -webkit-fill-available;
+ }
+
+ .technical-modal > .modal-dialog {
+    min-width: 85% !important;
+ }
+
+.card-custom {
+  background-color: #ffffff;
+  border-radius: .3em;
+  border: 0.063em solid rgba(0,0,0,.125);
+ }
+
+.card-custom:hover {
+  box-shadow: .1em .2em .2em 0 #919191;
+}
+
+.container-grid {
+  max-width: 100vw;
+  margin: 0 auto;
+}
+
+.container-list {
+  display: flex;
+  background-color: white;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  padding: 0;
+  max-width: 100vw;
+}
+
+.container-list > * {
+  display: block;
+  float: left;
+  flex: 0 0 auto;
+  background-color: #ffffff;
+  padding: 0.5em;
+}
+
+.color-primary {
+  color: #E2B64D !important;
+}

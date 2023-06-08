@@ -1,0 +1,24 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club  here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+---
+- name: Create Azure Blob Storage for the website
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  
+  tasks:
+  - name: Create the Storage Account for the Frontend website
+    azure_rm_storageaccount:
+      resource_group: "{{ azure_resource_group_name }}"
+      name: "{{ azure_storage_frontend_account_name }}"
+      account_type: "{{ azure_storage_frontend_account_type }}"
+      kind: StorageV2
+      tags:
+          Environment: "{{ env_name }}"

@@ -1,0 +1,21 @@
+#
+# This source code is the confidential, proprietary information of
+# Cafeto Software S.A.S. here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Cafeto Software S.A.S.
+#
+# 2018: Cafeto Software S.A.S.
+# All Rights Reserved.
+#
+---
+- name: Create Bucket
+  s3_bucket:
+    name: "{{ website_bucket_name }}"
+    region: "{{ website_bucket_region }}"
+    policy: "{{ website_bucket_policy }}"
+
+- name: Configure Bucket as a Website
+  s3_website:
+    name: "{{ website_bucket_name }}"
+    region: "{{ website_bucket_region }}"
+    state: present

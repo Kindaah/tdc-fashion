@@ -1,0 +1,115 @@
+#
+# This source code is the confidential, proprietary information of
+# Dress Club here in, you may not disclose such Information,
+# and may only use it in accordance with the terms of the license
+# agreement you entered into with Dress Club.
+#
+# 2018: Dress Club.
+# All Rights Reserved.
+#
+
+databaseChangeLog:
+  - include:
+      file: src/main/db/postgresql/db_schema20180801.sql
+  - include:
+      file: src/main/db/postgresql/20180815_alter_table_product.sql
+  - include:
+      file: src/main/db/postgresql/20180815_alter_table_user.sql
+  - include:
+      file: src/main/db/postgresql/20180815_alter_table_order.sql
+  - include:
+      file: src/main/db/postgresql/20180815_alter_table_quote.sql
+  - include:
+      file: src/main/db/postgresql/20180815_alter_table_product_keys.sql
+  - include:
+      file: src/main/db/postgresql/20180817_drop_table_quote.sql
+  - include:
+      file: src/main/db/postgresql/20180821_add_audit_fields.sql
+  - include:
+      file: src/main/db/postgresql/20180821_create_table_state.sql
+  - include:
+      file: src/main/db/postgresql/20180821_alter_files_columns_product.sql
+  - include:
+      file: src/main/db/postgresql/20180821_add_feature_table.sql
+  - include:
+      file: src/main/db/postgresql/20180821_change_audit_to_timestamp.sql
+  - include:
+      file: src/main/db/postgresql/20180821_alter_table_order_tdc.sql
+  - include:
+      file: src/main/db/postgresql/20180828_add_quote_to_product.sql
+  - include:
+      file: src/main/db/postgresql/20180829_create_table_shipping_address.sql
+  - include:
+      file: src/main/db/postgresql/20180829_create_table_order_shipping_address.sql
+  - include:
+      file: src/main/db/postgresql/20180830_alter_table_order_tdc.sql
+  - include:
+      file: src/main/db/postgresql/20180830_alter_table_order_shipping_address.sql
+  - include:
+      file: src/main/db/postgresql/20180830_alter_table_shipping_address.sql
+  - include:
+      file: src/main/db/postgresql/20180830_add_fields_to_user_table.sql
+  - include:
+      file: src/main/db/postgresql/20180904_create_table_shipping_info.sql
+  - include:
+      file: src/main/db/postgresql/20180904_alter_table_order_tdc.sql
+  - include:
+      file: src/main/db/postgresql/20180905_create_table_order_user_shipping_address.sql
+  - include:
+      file: src/main/db/postgresql/20180905_alter_table_order_shipping_address.sql
+  - include:
+      file: src/main/db/postgresql/20180905_alter_table_order_user_shipping_address.sql
+  - include:
+      file: src/main/db/postgresql/20180910_create_table_role_tdc.sql
+  - include:
+      file: src/main/db/postgresql/20180910_alter_table_user_tdc.sql
+  - include:
+      file: src/main/db/postgresql/20180911_alter_table_state.sql
+  - include:
+      file: src/main/db/postgresql/20180918_alter_table_state.sql
+  - include:
+      file: src/main/db/postgresql/20180926_alter_table_user.sql
+  - include:
+      file: src/main/db/postgresql/20180927_insert_data_table_state.sql
+  - include:
+      file: src/main/db/postgresql/20180927_update_data_table_state.sql
+  - include:
+      file: src/main/db/postgresql/20181008_create_table_payment_type.sql
+  - include:
+      file: src/main/db/postgresql/20181008_create_table_payment.sql
+  - include:
+      file: src/main/db/postgresql/20181009_alter_table_user_tdc.sql
+  - include:
+      file: src/main/db/postgresql/20181009_alter_payment_table.sql
+  - include:
+      file: src/main/db/postgresql/20181012_alter_payment_table.sql
+  - include:
+      file: src/main/db/postgresql/20181012_add_amount_to_payment.sql
+  - include:
+      file: src/main/db/postgresql/20181012_add_amount_integer.sql
+  - include:
+      file: src/main/db/postgresql/20181113_alter_amount_payment.sql
+  - include:
+      file: src/main/db/postgresql/20181119_create_company_table.sql
+  - include:
+      file: src/main/db/postgresql/20181119_alter_user_table.sql
+  - include:
+      file: src/main/db/postgresql/20181126_add_patterns_to_features.sql
+  - include:
+      file: src/main/db/postgresql/20181203_add_order_field_to_features.sql
+  - include:
+      file: src/main/db/postgresql/20181211_update_table_state.sql
+  - include:
+      file: src/main/db/postgresql/20181130_create_technical_sheet_table.sql
+  - include:
+      file: src/main/db/postgresql/20181215_add_letter_to_technical_sheet.sql
+  - include:
+      file: src/main/db/postgresql/20181217_add_orderInProduct_default_values.sql
+  - include:
+      file: src/main/db/postgresql/20181217_alter_table_state.sql
+  - include:
+      file: src/main/db/postgresql/20181228_remove_shipping_middle_tables.sql
+  - include:
+      file: src/main/db/postgresql/20181228_add_shipping_adress_to_order.sql
+  - include:
+      file: src/main/db/postgresql/20190109_add_state_column_shipping_address.sql
